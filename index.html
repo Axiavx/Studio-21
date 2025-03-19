@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Portfolio | Game & Python Developer</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --terminal-bg: #111111;
+            --primary-color: #00ff00;
+            --secondary-color: #00ccff;
+            --text-color: #f0f0f0;
+            --font-main: 'Courier New', monospace;
+            --glow: 0 0 5px var(--primary-color);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: var(--terminal-bg);
+            border-bottom: 1px solid var(--primary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            color: var(--primary-color);
+            text-shadow: var(--glow);
+            font-size: 1.8rem;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+            text-shadow: var(--glow);
+            border: 1px solid var(--primary-color);
+        }
+        
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .terminal {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            position: relative;
+        }
+        
+        .terminal-header {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: var(--bg-color);
+            padding: 0 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--secondary-color);
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.1em;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            border-right: 2px solid var(--primary-color);
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .project-card {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .project-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .project-card h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .project-card p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+        
+        .project-buttons {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .project-button {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: var(--font-main);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .project-button:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-tag {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        
+        .featured-game {
+            width: 100%;
+            height: 600px;
+            margin-top: 2rem;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            position: relative;
+            background-color: var(--terminal-bg);
+        }
+        
+        .game-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            animation: skillFill 2s ease-out;
+        }
+        
+        @keyframes skillFill {
+            from { width: 0; }
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        button {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+        
+        footer {
+            background-color: var(--terminal-bg);
+            border-top: 1px solid var(--primary-color);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            text-shadow: var(--glow);
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.07;
+        }
+        
+        /* Tetris Game Styles */
+        .tetris-container {
+            width: 300px;
+            height: 600px;
+            margin: 0 auto;
+            position: relative;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        .tetris-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            gap: 1px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .tetris-cell {
+            background-color: var(--terminal-bg);
+            border: 1px solid rgba(0, 255, 0, 0.1);
+        }
+        
+        .tetris-cell.filled {
+            border: 1px solid rgba(0, 255, 0, 0.5);
+        }
+        
+        .tetris-info {
+            position: absolute;
+            top: 0;
+            right: -150px;
+            width: 150px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .tetris-score, .tetris-level, .tetris-lines {
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+        
+        .tetris-next {
+            margin-top: 10px;
+            width: 100px;
+            height: 100px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 1px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .tetris-controls {
+            margin-top: 20px;
+            color: var(--text-color);
+            font-size: 12px;
+            text-align: left;
+        }
+        
+        .tetris-game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-align: center;
+            z-index: 10;
+            width: 80%;
+        }
+        
+        /* Terminal Demo Styles */
+        .terminal-demo {
+            background-color: var(--terminal-bg);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            font-family: var(--font-main);
+            height: 400px;
+            overflow-y: auto;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        .terminal-demo pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        .terminal-input {
+            display: flex;
+            margin-top: 10px;
+        }
+        
+        .terminal-input span {
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+        
+        .terminal-input input {
+            background-color: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-family: var(--font-main);
+            flex-grow: 1;
+            outline: none;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 0.8rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tetris-container {
+                width: 250px;
+                height: 500px;
+            }
+            
+            .tetris-info {
+                position: relative;
+                right: 0;
+                width: 100%;
+                margin-top: 20px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .tetris-next {
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    <header>
+        <div class="logo">
+            <h1>&lt;/&gt; YourName<span class="blink">_</span></h1>
+        </div>
+        <nav>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-section="about">About</a>
+                <a href="#" class="nav-link" data-section="projects">Projects</a>
+                <a href="#" class="nav-link" data-section="skills">Skills</a>
+                <a href="#" class="nav-link" data-section="contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="about" class="active">
+            <div class="terminal">
+                <div class="terminal-header">about.exe</div>
+                <h2 class="typing-animation">Hello, World! I'm Axiax</h2>
+                <p>
+                    Welcome to my terminal. I'm a passionate game developer and Python programmer
+                    specializing in creating interactive experiences and efficient backend solutions.
+                </p>
+                <p id="typewriter" style="margin-top: 20px;">
+                    <span id="typed-text"></span><span class="blink">█</span>
+                </p>
+            </div>
+            
+            <div class="terminal">
+                <div class="terminal-header">experience.sh</div>
+                <h3>My Journey</h3>
+                <p>
+                    With [X] years of experience in game development and Python I create Python applications that solve real problems.█programming, I've worked on a variety of projects
+                    ranging from web-based games to complex data analysis tools. My passion lies in creating interactive experiences
+                    that are both engaging and technically impressive.
+                </p>
+                <p>
+                    I specialize in developing games using HTML5/JavaScript and building robust backend systems with Python.
+                    My goal is to continue pushing the boundaries of what's possible in web game development while creating
+                    efficient and elegant solutions to complex problems.
+                </p>
+            </div>
+        </section>
+        <section id="projects">
+            <h2>&gt; My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Tetris</h3>
+                    <p>
+                        A classic block-dropping puzzle game where players manipulate geometric shapes to create complete horizontal lines while preventing blocks from stacking too high. The game's simple mechanics mask a deep strategic challenge that tests spatial awareness and quick decision-making. As blocks fall faster, players must think and act quickly to survive in this timeless digital challenge of mathematical precision and gaming excitement.
+                    </p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JAVASCRIPT</span>
+                    </div>
+                    <div class="project-buttons">
+                        <a href="https://github.com/" class="project-button">Source</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Infinite Runner</h3>
+                    <p>
+                        A high-speed game where characters automatically move forward through dynamically changing environments, challenging players to dodge obstacles and collect power-ups using split-second reflexes. The procedurally generated terrain creates an unpredictable and adrenaline-fueled experience that tests reaction time and spatial perception. Each run is a unique digital athletic challenge that pushes players to their limits.
+                    </p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JAVASCRIPT</span>
+                    </div>
+                    <div class="project-buttons">
+                        <a href="#" class="project-button">Source</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Tower Stacker</h3>
+                    <p>
+                        A game of precision where players carefully drop blocks to build the tallest possible structure without causing a collapse, with each block placement becoming a calculated risk. The challenge increases as the tower grows higher, testing players' understanding of timing and calmness.
+                    </p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JAVASCRIPT</span>
+                        <span class="tech-tag">PYTHON</span>
+                        <span class="tech-tag">C#</span>
+                    </div>
+                    <div class="project-buttons">
+                        <a href="#" class="project-button">Source</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Space Invaders</h3>
+                    <p>
+                        A legendary arcade shooter where players defend Earth from descending alien spacecraft using a Space Craft laser cannon, shooting down alien formations. The game becomes progressively faster and more complex, testing shooting reflexes in a classic battle of survival against threats. Space Invaders defined an entire genre of arcade combat games, creating an iconic gaming experience.
+                    </p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JAVASCRIPT</span>
+                        <span class="tech-tag">PYTHON</span>
+                        <span class="tech-tag">C++</span>
+                    </div>
+                    <div class="project-buttons">
+                        <a href="#" class="project-button">Source</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Nearest Dot Finder</h3>
+                    <p>
+                        A strategic pathfinding puzzle where players create a continuous path by always selecting the geometrically closest dot, challenging computational thinking and spatial perception. The game requires rapid mathematical calculations for each move, with the dot field becoming increasingly complex as players progress. It transforms mathematical reasoning into an engaging gameplay experience that tests players' ability to find the most efficient route.
+                    </p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JAVASCRIPT</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">PYTHON</span>
+                    </div>
+                    <div class="project-buttons">
+                        <a href="#" class="project-button">Source</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills">
+            <h2>&gt; Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    
+                    <p>Python</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 95%"></div>
+                    </div>
+                    
+                    <p>JavaScript</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                    
+                    <p>C#</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 80%"></div>
+                    </div>
+                    
+                    <p>HTML/CSS</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Frameworks & Tools</h3>
+                    
+                    <p>Django</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                    
+                    <p>Flask</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                    
+                    <p>React</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 75%"></div>
+                    </div>
+                    
+                    <p>Unity</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 80%"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Game Development</h3>
+                    
+                    <p>Game Design</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                    
+                    <p>Game Physics</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 80%"></div>
+                    </div>
+                    
+                    <p>Procedural Generation</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 75%"></div>
+                    </div>
+                    
+                    <p>AI Programming</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="terminal" style="margin-top: 3rem;">
+                <div class="terminal-header">experience.log</div>
+                <h3>Work Experience</h3>
+                <p>
+                    <strong>Senior Game Developer</strong> | Company Name | 2022 - Present
+                </p>
+                <p>
+                    Developed and maintained multiple game projects, implemented gameplay features,
+                    optimized performance, and collaborated with artists and designers.
+                </p>
+                
+                <p style="margin-top: 1.5rem;">
+                    <strong>Python Backend Developer</strong> | Company Name | 2019 - 2022
+                </p>
+                <p>
+                    Designed and implemented scalable backend systems, created APIs, and optimized
+                    database queries for high-traffic applications.
+                </p>
+                
+                <h3 style="margin-top: 2rem;">Education</h3>
+                <p>
+                    <strong>B.S. in Computer Science</strong> | University Name | 2015 - 2019
+                </p>
+                <p>
+                    Focused on software engineering, algorithms, and game development.
+                </p>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2>&gt; Contact</h2>
+            <div class="terminal">
+                <div class="terminal-header">message.sh</div>
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" rows="5" placeholder="Type your message here..."></textarea>
+                    </div>
+                    
+                    <button type="submit">Send Message</button>
+                </div>
+            </div>
+            
+            <div class="terminal" style="margin-top: 2rem;">
+                <div class="terminal-header">social.bat</div>
+                <h3>Find Me Online</h3>
+                <p>
+                    GitHub: <a href="https://github.com/" target="_blank" style="color: var(--primary-color);">github.com/yourusername</a>
+                </p>
+                <p>
+                    LinkedIn: <a href="https://linkedin.com/" target="_blank" style="color: var(--primary-color);">linkedin.com/in/yourusername</a>
+                </p>
+                <p>
+                    Twitter: <a href="https://twitter.com/" target="_blank" style="color: var(--primary-color);">@yourusername</a>
+                </p>
+                <p>
+                    Email: <a href="mailto:your.email@example.com" style="color: var(--primary-color);">your.email@example.com</a>
+                </p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 YourName | Game & Python Developer</p>
+        <div class="social-links">
+            <a href="https://github.com/" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com/" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Portfolio</a>
+        </div>
+    </footer>
+    
+    <script>
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all sections
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Show the selected section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Initialize Tetris if on projects page
+                if (sectionId === 'projects') {
+                    initTetris();
+                }
+            });
+        });
+        
+        // Matrix background effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}:"<>?[];,./';
+        const letters = latin.split('');
+        
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for(let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+        
+        // Window resize handling
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Typewriter effect
+        const textToType = [
+            "I build games that engage and entertain.",
+            "I create Python scripts and applications that solve real problems.",
+            "I love turning complex ideas into elegant solutions.",
+            "Let's collaborate on your next project!"
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        const typingSpeed = 50; // milliseconds per character
+        const pauseTime = 2000; // pause between text changes
+        const typedTextElement = document.getElementById('typed-text');
+        
+        function typeText() {
+            if (charIndex < textToType[textIndex].length) {
+                typedTextElement.textContent += textToType[textIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, typingSpeed);
+            } else {
+                setTimeout(eraseText, pauseTime);
+            }
+        }
+        
+        function eraseText() {
+            if (charIndex > 0) {
+                typedTextElement.textContent = textToType[textIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(eraseText, typingSpeed / 2);
+            } else {
+                textIndex = (textIndex + 1) % textToType.length;
+                setTimeout(typeText, typingSpeed);
+            }
+        }
+        
+        // Start the typewriter effect
+        setTimeout(typeText, 1000);
+        
+        // Tetris Game
+        let tetrisGrid;
+        let tetrisNextDisplay;
+        let tetrisScoreDisplay;
+        let tetrisLevelDisplay;
+        let tetrisLinesDisplay;
+        let tetrisIntervalId;
+        let tetrisGameOver = false;
+        
+        // Game state variables
+        const GRID_WIDTH = 10;
+        const GRID_HEIGHT = 20;
+        let grid = [];
+        let score = 0;
+        let level = 1;
+        let lines = 0;
+        let currentPiece = null;
+        let nextPiece = null;
+        let dropSpeed = 1000; // ms
+        
+        // Tetris pieces (I, O, T, S, Z, J, L)
+        const PIECES = [
+            { // I piece
+                shapes: [
+                    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+                ],
+                color: '#00ffff'
+            },
+            { // O piece
+                shapes: [
+                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+                ],
+                color: '#ffff00'
+            },
+            { // T piece
+                shapes: [
+                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0]
+                ],
+                color: '#ff00ff'
+            },
+            { // S piece
+                shapes: [
+                    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0]
+                ],
+                color: '#00ff00'
+            },
+            { // Z piece
+                shapes: [
+                    [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0]
+                ],
+                color: '#ff0000'
+            },
+            { // J piece
+                shapes: [
+                    [0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0]
+                ],
+                color: '#0000ff'
+            },
+            { // L piece
+                shapes: [
+                    [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+                ],
+                color: '#ff7f00'
+            }
+        ];
+    </script>
+</body>
+</html>
