@@ -3,997 +3,1038 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev Portfolio | Game & Python Developer</title>
+    <title>AXIAVX // 3D_ARTIST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1233064769334808588/1451070810356711424/7a878915edef4482460ac4d8123c3629.webp?ex=6944d680&is=69438500&hm=5969e4f92cd1ba8a020e8b29a969a7233f6219649adb0663626106853eb6371c&=&format=webp&width=85&height=85">
+
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --terminal-bg: #111111;
-            --primary-color: #00ff00;
-            --secondary-color: #00ccff;
-            --text-color: #f0f0f0;
-            --font-main: 'Courier New', monospace;
-            --glow: 0 0 5px var(--primary-color);
+            /* Default Theme (Cyber) */
+            --bg-deep: #020005;
+            --bg-panel: #150524;
+            --border-main: #9d4edd;
+            --border-light: #c77dff;
+            --accent-pink: #f72585;
+            --accent-cyan: #4cc9f0;
+            --text-glow: #e0aaff;
+            --tray-bg: #0a0212;
+            --star-color: 255, 255, 255;
+            --scanline-opacity: 1;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        /* Theme 2: Matrix (Green) */
+        [data-theme="matrix"] {
+            --bg-deep: #000500;
+            --bg-panel: #051405;
+            --border-main: #008f11;
+            --border-light: #00ff41;
+            --accent-pink: #00ff00;
+            --accent-cyan: #50ff50;
+            --text-glow: #aaffaa;
+            --tray-bg: #001100;
+            --star-color: 0, 255, 0;
         }
+
+        /* Theme 3: Retro (Amber) */
+        [data-theme="retro"] {
+            --bg-deep: #1a1000;
+            --bg-panel: #2e1c00;
+            --border-main: #ff6600;
+            --border-light: #ffae00;
+            --accent-pink: #ffcc00;
+            --accent-cyan: #ffddaa;
+            --text-glow: #ffae00;
+            --tray-bg: #1a1000;
+            --star-color: 255, 200, 0;
+        }
+
+        /* Theme 4: Polar (Light - Ice) */
+        [data-theme="polar"] {
+            --bg-deep: #e0f7fa;
+            --bg-panel: #ffffff;
+            --border-main: #00bcd4;
+            --border-light: #4dd0e1;
+            --accent-pink: #0097a7;
+            --accent-cyan: #006064;
+            --text-glow: #000000;
+            --tray-bg: #e0f7fa;
+            --star-color: 0, 0, 0;
+        }
+
+        /* Theme 5: Paper (Light - Blueprint) */
+        [data-theme="paper"] {
+            --bg-deep: #fdfbf7;
+            --bg-panel: #fffcf0;
+            --border-main: #333333;
+            --border-light: #555555;
+            --accent-pink: #d32f2f;
+            --accent-cyan: #1976d2;
+            --text-glow: #212121;
+            --tray-bg: #f0ebe0;
+            --star-color: 50, 50, 50;
+        }
+
+        * { box-sizing: border-box; user-select: none; }
         
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            margin: 0; overflow: hidden; background-color: var(--bg-deep);
+            font-family: 'VT323', monospace; color: var(--text-glow);
+            height: 100vh; width: 100vw; 
+            background: radial-gradient(circle at 50% 120%, var(--bg-panel) 0%, var(--bg-deep) 70%);
+            transition: background 0.5s, color 0.5s;
+            /* CUSTOM RETRO CURSOR */
+            cursor: crosshair;
         }
-        
-        header {
-            background-color: var(--terminal-bg);
-            border-bottom: 1px solid var(--primary-color);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+
+        /* POINTER CURSORS FOR INTERACTABLES */
+        .icon, button, .win-btn, .start-item, .g-folder, .gallery-rect, i, input[type=range] {
+            cursor: pointer; 
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+
+        /* --- SCROLLBARS --- */
+        ::-webkit-scrollbar { width: 10px; background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-track { border-left: 1px solid var(--border-main); }
+        ::-webkit-scrollbar-thumb { background: var(--border-main); border: 1px solid var(--bg-panel); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-pink); }
+
+        /* --- EFFECTS --- */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px; z-index: 9999; pointer-events: none;
+            opacity: var(--scanline-opacity); transition: opacity 0.5s;
         }
-        
-        .logo h1 {
-            color: var(--primary-color);
-            text-shadow: var(--glow);
-            font-size: 1.8rem;
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+            z-index: 9999; pointer-events: none;
         }
-        
-        .blink {
-            animation: blink 1s infinite;
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.03; z-index: 9998; pointer-events: none;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZkzMzO3t7c3AAAACHRSTlMAMwA3MzMzMzMzMzMzAAAAJUlEQVQ4y2NgwA2YQACO4gZ2EAYCYGBgYHgIE4RDwUPYwA5iAAAuHz/d1C4nOAAAAABJRU5ErkJggg==');
         }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            border: 1px solid transparent;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--primary-color);
-            text-shadow: var(--glow);
-            border: 1px solid var(--primary-color);
-        }
-        
-        main {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        section {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        section.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .terminal {
-            background-color: var(--terminal-bg);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-            position: relative;
-        }
-        
-        .terminal-header {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background-color: var(--bg-color);
-            padding: 0 10px;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        
-        h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 5px var(--secondary-color);
-        }
-        
-        h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .typing-animation {
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 0.1em;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-            border-right: 2px solid var(--primary-color);
-        }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--primary-color); }
-        }
-        
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .project-card {
-            background-color: var(--terminal-bg);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-        
-        .project-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        }
-        
-        .project-card h3 {
-            margin-bottom: 1rem;
-        }
-        
-        .project-card p {
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-        
-        .project-buttons {
-            margin-top: auto;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .project-button {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: var(--font-main);
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .project-button:hover {
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-        }
-        
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .tech-tag {
-            background-color: rgba(0, 255, 0, 0.1);
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.8rem;
-        }
-        
-        .featured-game {
-            width: 100%;
-            height: 600px;
-            margin-top: 2rem;
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            position: relative;
-            background-color: var(--terminal-bg);
-        }
-        
-        .game-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
+
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden;
         }
-        
-        .game-instructions {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border: 1px solid var(--primary-color);
-            color: var(--text-color);
-            font-size: 0.9rem;
-            z-index: 10;
+        .login-box {
+            position: relative; z-index: 10; width: 400px; padding: 50px;
+            background: rgba(10, 10, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); text-align: center;
+            box-shadow: 0 0 50px rgba(157, 78, 221, 0.2), inset 0 0 20px rgba(0,0,0,0.8);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%, 0% 15%);
+        }
+        .login-box::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-top: 2px solid var(--accent-cyan); border-bottom: 2px solid var(--accent-pink);
+            opacity: 0.8; pointer-events: none;
+        }
+        .avatar-circle {
+            width: 100px; height: 100px; background: rgba(0,0,0,0.5); border-radius: 50%;
+            margin: 0 auto 20px auto; border: 2px solid var(--accent-cyan);
+            display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 3rem;
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+        .login-title { 
+            font-family: 'Press Start 2P'; color: #fff; margin-bottom: 5px; font-size: 1.2rem; 
+            text-shadow: 3px 3px 0 var(--accent-pink); animation: glitchText 3s infinite;
+        }
+        @keyframes glitchText {
+            0% { transform: translate(0); } 2% { transform: translate(-2px, 2px); }
+            4% { transform: translate(2px, -2px); } 6% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+        .login-sub { font-size: 0.9rem; color: #aaa; margin-bottom: 30px; letter-spacing: 2px; }
+        .login-btn {
+            width: 100%; background: transparent; color: var(--accent-cyan); 
+            border: 2px solid var(--accent-cyan); padding: 15px; font-family: 'Press Start 2P'; 
+            font-size: 0.9rem; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+        .login-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 30px var(--accent-cyan); }
+
+        /* --- BIOS LOADER --- */
+        #bios-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 99999; display: none; flex-direction: column; 
+            justify-content: center; align-items: center;
+        }
+        .bios-text-container { width: 80%; text-align: left; margin-bottom: 20px; font-family: 'VT323'; font-size: 1.2rem; color: #ccc; }
+        .bios-line { margin-bottom: 5px; opacity: 0; animation: typeLine 0.1s forwards; }
+        .classic-loader { display: inline-block; position: relative; width: 80px; height: 80px; }
+        .classic-loader div { transform-origin: 40px 40px; animation: spinner 1.2s linear infinite; }
+        .classic-loader div:after {
+            content: " "; display: block; position: absolute; top: 3px; left: 37px; width: 6px; height: 18px;
+            border-radius: 20%; background: #fff;
+        }
+        .classic-loader div:nth-child(1) { transform: rotate(0deg); animation-delay: -1.1s; }
+        .classic-loader div:nth-child(2) { transform: rotate(30deg); animation-delay: -1.0s; }
+        .classic-loader div:nth-child(3) { transform: rotate(60deg); animation-delay: -0.9s; }
+        .classic-loader div:nth-child(4) { transform: rotate(90deg); animation-delay: -0.8s; }
+        .classic-loader div:nth-child(5) { transform: rotate(120deg); animation-delay: -0.7s; }
+        .classic-loader div:nth-child(6) { transform: rotate(150deg); animation-delay: -0.6s; }
+        .classic-loader div:nth-child(7) { transform: rotate(180deg); animation-delay: -0.5s; }
+        .classic-loader div:nth-child(8) { transform: rotate(210deg); animation-delay: -0.4s; }
+        .classic-loader div:nth-child(9) { transform: rotate(240deg); animation-delay: -0.3s; }
+        .classic-loader div:nth-child(10) { transform: rotate(270deg); animation-delay: -0.2s; }
+        .classic-loader div:nth-child(11) { transform: rotate(300deg); animation-delay: -0.1s; }
+        .classic-loader div:nth-child(12) { transform: rotate(330deg); animation-delay: 0s; }
+        @keyframes spinner { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* --- BACKGROUND --- */
+        #bg-canvas { position: absolute; top: 0; left: 0; z-index: 0; }
+
+        /* --- DESKTOP --- */
+        #desktop {
+            position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 45px);
+            z-index: 10; padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap; 
+            align-content: flex-start; gap: 10px;
+        }
+        .icon {
+            width: 80px; margin-bottom: 15px; display: flex; flex-direction: column; 
+            align-items: center; text-align: center; cursor: pointer; transition: transform 0.1s; position: relative;
+        }
+        .icon:hover .icon-graphic { animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite; color: #fff; border-color: #fff; }
+        .icon:active { transform: scale(0.95); }
+        .icon-graphic {
+            width: 48px; height: 48px; background: rgba(21, 5, 36, 0.9);
+            border: 2px solid var(--accent-cyan); display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: var(--accent-pink); box-shadow: 3px 3px 0px var(--border-main); margin-bottom: 5px;
+        }
+        .icon-text { background: var(--bg-deep); color: var(--text-glow); padding: 1px 3px; font-size: 1rem; box-shadow: 2px 2px 0 var(--accent-pink); border: 1px solid var(--border-main); }
+
+        /* --- SIDEBAR WIDGETS --- */
+        #right-sidebar {
+            position: absolute; top: 20px; right: 20px; width: 520px; max-width: 90vw;
+            display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; z-index: 15;
+            pointer-events: none;
+        }
+        .widget-box {
+            background: rgba(21, 5, 36, 0.8); border: 1px solid var(--border-main);
+            padding: 10px; box-shadow: 5px 5px 0 rgba(0,0,0,0.5); backdrop-filter: blur(2px);
+            pointer-events: auto; flex: 1 1 240px; min-height: 120px; display: flex; flex-direction: column;
+        }
+        .widget-header {
+            background: var(--accent-pink); color: #fff; padding: 2px 5px;
+            font-family: 'Press Start 2P'; font-size: 0.7rem; margin-bottom: 10px; text-transform: uppercase;
         }
         
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 1.5rem;
+        /* Widget 1: Music */
+        .music-container { 
+            position: relative; width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; 
+            overflow: hidden; border: 1px solid #333; background: #000; margin-bottom: 5px; 
         }
+        .disk-wrapper {
+            width: 70px; height: 70px; border-radius: 50%; background: #111; border: 2px solid #333; 
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            animation: spin 1.5s linear infinite; animation-play-state: paused;
+            background-image: repeating-radial-gradient(#111 0, #111 2px, #222 3px, #111 4px);
+        }
+        .disk-wrapper.playing { animation-play-state: running; }
+        .disk-label { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-pink); border: 2px solid #fff; }
+        .track-info { font-size: 0.8rem; color: #fff; text-align: center; margin-bottom: 2px;}
+        .player-controls { display: flex; justify-content: center; gap: 10px; font-size: 1rem; margin-bottom: 2px; }
+        .player-controls i { cursor: pointer; color: var(--accent-cyan); }
+        .widget-vol { display: flex; align-items: center; gap: 5px; margin-top: auto; border-top: 1px solid #444; padding-top: 2px; color: #fff; font-size: 0.8rem; }
+        .widget-vol input { width: 100%; height: 4px; }
+
+        /* Widget 2: System Monitor */
+        .avail-status { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; padding: 10px; border: 1px solid var(--border-main); background: rgba(0,0,0,0.3); }
+        .status-light { width: 20px; height: 20px; background: #0f0; border-radius: 50%; box-shadow: 0 0 15px #0f0; animation: blink 1s infinite; margin-bottom: 10px; }
+        .status-text { color: #0f0; font-family: 'Press Start 2P'; font-size: 0.7rem; text-align: center; line-height: 1.4; }
+
+        /* Widget 3: Calendar */
+        .calendar-wrapper { color: #fff; text-align: center; padding: 10px 0; flex-grow: 1; display:flex; flex-direction:column; justify-content:center;}
+        .time-big { font-family: 'Press Start 2P'; font-size: 1.8rem; color: var(--accent-cyan); margin-bottom: 5px; text-shadow: 2px 2px 0 #000; }
+        .time-label { font-size: 0.8rem; color: #aaa; margin-bottom: 5px; }
+        .date-display { font-size: 1.1rem; color: var(--accent-pink); }
+
+        /* Widget 4: Data Stream */
+        .vis-container {
+            display: flex; align-items: flex-end; justify-content: space-between; height: 60px;
+            border: 1px solid var(--border-main); background: rgba(0,0,0,0.5); padding: 5px; flex-grow: 1;
+        }
+        .vis-bar { width: 10%; background: var(--accent-cyan); animation: bounceBar 1s infinite ease-in-out; border-top: 2px solid #fff; }
+        .vis-bar:nth-child(odd) { background: var(--accent-pink); animation-duration: 0.8s; }
+        .vis-bar:nth-child(2) { animation-delay: 0.1s; } .vis-bar:nth-child(3) { animation-delay: 0.2s; }
+        .vis-bar:nth-child(4) { animation-delay: 0.3s; } .vis-bar:nth-child(5) { animation-delay: 0.4s; }
+        .vis-bar:nth-child(6) { animation-delay: 0.5s; } .vis-bar:nth-child(7) { animation-delay: 0.1s; }
+        .vis-bar:nth-child(8) { animation-delay: 0.3s; }
+        @keyframes bounceBar { 0%, 100% { height: 10%; } 50% { height: 90%; } }
+
+        /* Widget 5: Terminal Log */
+        #sys-terminal {
+            flex-grow: 1; background: #000; padding: 5px; font-family: 'VT323'; font-size: 0.9rem; 
+            color: var(--accent-cyan); overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; 
+            justify-content: flex-end; text-shadow: 0 0 2px var(--accent-cyan); opacity: 0.8;
+        }
+
+        /* --- WINDOWS --- */
+        .window {
+            position: absolute; background: var(--bg-panel); border: 2px solid var(--border-main); 
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.6); display: none; flex-direction: column; 
+            min-width: 300px; min-height: 200px; resize: both; overflow: hidden; max-height: 80vh;
+        }
+        .window.opening { display: flex; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .window.closing { animation: popOut 0.2s ease-in forwards; }
+        .window.active { z-index: 100; border-color: var(--accent-cyan); }
+        .title-bar {
+            background: linear-gradient(90deg, var(--bg-deep), var(--border-main)); padding: 5px; 
+            display: flex; justify-content: space-between; align-items: center; cursor: grab; 
+            border-bottom: 2px solid var(--border-main); flex-shrink: 0;
+        }
+        .title-text { font-family: 'Press Start 2P'; font-size: 10px; color: #fff; margin-left: 5px; pointer-events: none; }
+        .window-controls { display: flex; gap: 4px; }
+        .win-btn { width: 16px; height: 16px; border: 1px solid #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; font-weight: bold; box-shadow: 1px 1px 0 #000; }
+        .btn-min { background: var(--accent-cyan); color: #000; }
+        .btn-close { background: var(--accent-pink); color: #fff; }
+        .window-body { padding: 15px; overflow-y: auto; flex-grow: 1; background: var(--bg-panel); scrollbar-width: thin; position: relative; }
+        .window-ghost {
+            position: absolute; background: rgba(76, 201, 240, 0.2); border: 2px solid rgba(76, 201, 240, 0.5);
+            z-index: 90; pointer-events: none; transition: opacity 0.3s; opacity: 0.6;
+        }
+
+        /* --- CONTENT STYLES --- */
+        h2 { font-family: 'Press Start 2P'; font-size: 14px; color: var(--accent-cyan); border-bottom: 2px dashed var(--accent-pink); padding-bottom: 10px; margin-top: 0; }
+        p { font-size: 1.2rem; line-height: 1.3; margin-bottom: 10px; }
         
-        .skill-category {
-            flex: 1;
-            min-width: 250px;
+        /* Gallery */
+        .gallery-folders { display: flex; flex-direction: column; gap: 5px; }
+        .g-folder { display: flex; align-items: center; cursor: pointer; padding: 8px 10px; border: 1px solid transparent; width: 100%; }
+        .g-folder:hover { background: rgba(255,255,255,0.05); border: 1px dotted var(--accent-cyan); }
+        .g-icon { font-size: 1.5rem; color: var(--border-light); margin-right: 15px; width: 30px; text-align: center; }
+        .g-name { font-family: 'VT323'; font-size: 1.3rem; color: var(--text-glow); flex-grow: 1; }
+        .g-date { font-size: 0.9rem; color: #777; margin-right: 10px; }
+        .gallery-content-view { display: none; flex-direction: column; height: 100%; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; }
+        .gallery-rect { 
+            height: 80px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; text-align: center; color: #fff; padding: 5px;
         }
-        
-        .skill-bar {
-            height: 10px;
-            background-color: rgba(0, 255, 0, 0.1);
-            border-radius: 5px;
-            margin-bottom: 1.5rem;
-            position: relative;
+        .gallery-rect:hover { background: var(--accent-cyan); color: #000; }
+        .gallery-rect i { font-size: 1.5rem; margin-bottom: 5px; }
+        .rect-name { font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+        .back-btn { align-self: flex-start; background: var(--border-main); color: #fff; border: none; padding: 5px 10px; font-family: 'Press Start 2P'; font-size: 0.7rem; cursor: pointer; margin-bottom: 10px; }
+
+        /* Profile */
+        .profile-grid { display: grid; grid-template-columns: 120px 1fr; gap: 20px; }
+        .profile-pic { width: 120px; height: 120px; border: 2px solid #fff; background: var(--accent-cyan); display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; box-shadow: 5px 5px 0 var(--border-main); }
+        .stat-block { margin-bottom: 5px; }
+        .stat-name { font-size: 0.9rem; display: flex; justify-content: space-between; }
+        .progress-bar { height: 10px; background: #333; border: 1px solid #555; margin-top: 2px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan)); }
+        .hardware-box { border: 1px solid var(--border-main); padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.5); }
+        .hw-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding: 3px 0; font-size: 0.9rem; color: #fff; }
+        .about-section { margin-top: 15px; border-top: 1px dotted #555; padding-top: 10px; }
+        .skill-tag { display: inline-block; background: #222; border: 1px solid var(--accent-cyan); color: #fff; padding: 2px 6px; font-size: 0.8rem; margin: 2px; }
+
+        /* Pricing & Pay */
+        .pricing-grid { display: grid; grid-template-columns: 1fr auto; gap: 5px; margin-bottom: 20px; }
+        .p-row { display: contents; }
+        .p-item { padding: 5px; border-bottom: 1px solid #444; }
+        .p-price { padding: 5px; color: var(--accent-pink); font-family: 'Press Start 2P'; font-size: 0.8rem; border-bottom: 1px solid #444; text-align: right;}
+        .pay-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .pay-item { border: 1px solid var(--border-main); padding: 10px; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); cursor: pointer; transition: 0.2s; }
+        .pay-item:hover { background: var(--accent-cyan); color: #000; border-color: #fff; }
+        .pay-icon { width: 30px; text-align: center; font-size: 1.2rem; }
+        .contact-row { background: #000; padding: 15px; border: 1px solid #444; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; font-size: 1.3rem; box-shadow: 3px 3px 0 #222; }
+
+        /* --- TASKBAR --- */
+        #taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 45px; background: var(--bg-panel); border-top: 2px solid var(--border-main); display: flex; align-items: center; justify-content: space-between; padding: 0 8px; z-index: 9999; }
+        .start-btn {
+            background: linear-gradient(180deg, var(--border-light), var(--border-main)); 
+            color: #000; font-family: 'Press Start 2P'; font-size: 12px; padding: 6px 12px; border: 2px solid #fff; 
+            box-shadow: 3px 3px 0 #000; cursor: pointer; display: flex; align-items: center; gap: 5px;
         }
-        
-        .skill-progress {
-            height: 100%;
-            border-radius: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            position: relative;
-            animation: skillFill 2s ease-out;
-        }
-        
-        @keyframes skillFill {
-            from { width: 0; }
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: var(--terminal-bg);
-            border: 1px solid var(--primary-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
-            resize: vertical;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            box-shadow: 0 0 5px var(--primary-color);
-        }
-        
-        button {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.8rem 1.5rem;
-            font-family: var(--font-main);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-        }
-        
-        footer {
-            background-color: var(--terminal-bg);
-            border-top: 1px solid var(--primary-color);
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .social-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--primary-color);
-            text-shadow: var(--glow);
-        }
-        
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.07;
-        }
-        
-        /* Tetris Game Styles */
-        .tetris-container {
-            width: 300px;
-            height: 600px;
-            margin: 0 auto;
-            position: relative;
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 0 10px var(--primary-color);
-        }
-        
-        .tetris-grid {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            grid-template-rows: repeat(20, 1fr);
-            gap: 1px;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        
-        .tetris-cell {
-            background-color: var(--terminal-bg);
-            border: 1px solid rgba(0, 255, 0, 0.1);
-        }
-        
-        .tetris-cell.filled {
-            border: 1px solid rgba(0, 255, 0, 0.5);
-        }
-        
-        .tetris-info {
-            position: absolute;
-            top: 0;
-            right: -150px;
-            width: 150px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .tetris-score, .tetris-level, .tetris-lines {
-            color: var(--primary-color);
-            font-size: 14px;
-        }
-        
-        .tetris-next {
-            margin-top: 10px;
-            width: 100px;
-            height: 100px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 1px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--primary-color);
-        }
-        
-        .tetris-controls {
-            margin-top: 20px;
-            color: var(--text-color);
-            font-size: 12px;
-            text-align: left;
-        }
-        
-        .tetris-game-over {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            text-align: center;
-            z-index: 10;
-            width: 80%;
-        }
-        
-        /* Terminal Demo Styles */
-        .terminal-demo {
-            background-color: var(--terminal-bg);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-            padding: 20px;
-            font-family: var(--font-main);
-            height: 400px;
-            overflow-y: auto;
-            width: 100%;
-            margin-top: 20px;
-            box-shadow: 0 0 10px var(--primary-color);
-        }
-        
-        .terminal-demo pre {
-            margin: 0;
-            white-space: pre-wrap;
-        }
-        
-        .terminal-input {
-            display: flex;
-            margin-top: 10px;
-        }
-        
-        .terminal-input span {
-            color: var(--secondary-color);
-            margin-right: 10px;
-        }
-        
-        .terminal-input input {
-            background-color: transparent;
-            border: none;
-            color: var(--primary-color);
-            font-family: var(--font-main);
-            flex-grow: 1;
-            outline: none;
-        }
-        
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem 0.5rem;
-            }
-            
-            .nav-links {
-                gap: 0.8rem;
-            }
-            
-            main {
-                padding: 1rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tetris-container {
-                width: 250px;
-                height: 500px;
-            }
-            
-            .tetris-info {
-                position: relative;
-                right: 0;
-                width: 100%;
-                margin-top: 20px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                flex-wrap: wrap;
-            }
-            
-            .tetris-next {
-                margin: 10px auto;
-            }
-        }
+        .start-btn.active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
+        #start-menu { position: absolute; bottom: 48px; left: 5px; width: 200px; background: var(--bg-panel); border: 2px solid var(--border-main); box-shadow: 5px 5px 0 #000; display: none; flex-direction: column; z-index: 10000; }
+        .start-header { background: linear-gradient(90deg, var(--accent-pink), var(--border-main)); color: #fff; padding: 5px; font-family: 'Press Start 2P'; font-size: 10px; }
+        .start-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; }
+        .start-item:hover { background: var(--accent-cyan); color: #000; }
+        .start-item i { width: 20px; text-align: center; color: var(--accent-cyan); }
+        .start-item:hover i { color: #000; }
+        .task-list { display: flex; gap: 5px; margin-left: 10px; flex-grow: 1; overflow: hidden; }
+        .task-item { background: var(--bg-deep); border: 1px solid #555; color: #bbb; padding: 5px 8px; font-size: 1rem; cursor: pointer; min-width: 80px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1); }
+        .task-item.active-task { background: #3c096c; color: #fff; border: 1px solid var(--accent-cyan); box-shadow: inset 2px 2px 4px #000; }
+        .tray { display: flex; align-items: center; gap: 10px; background: var(--tray-bg); padding: 4px 10px; border: 2px solid #444; border-radius: 2px; }
+
+        /* Calculator */
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .calc-btn { padding: 10px; background: #333; border: 1px solid #fff; color: #fff; font-family: 'VT323'; font-size: 1.2rem; cursor: pointer; text-align: center; box-shadow: 2px 2px 0 #000; }
+        .calc-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #000; }
+        .calc-display { grid-column: span 4; background: #8da176; color: #000; padding: 10px; text-align: right; font-family: 'Press Start 2P'; margin-bottom: 5px; border: 2px solid #555; height: 40px; overflow: hidden;}
+        .op-btn { background: var(--accent-pink); } .eq-btn { background: var(--accent-cyan); color: #000; }
+
+        /* Paint */
+        #sketch-canvas { background: #fff; cursor: crosshair; width: 100%; height: 100%; display: block; border: 1px solid #000; }
+        .tool-bar { margin-bottom: 5px; display: flex; gap: 5px; }
+        .color-pick { width: 20px; height: 20px; cursor: pointer; border: 2px solid #fff; }
+
+        /* Snake */
+        #snake-canvas { background: #000; border: 2px solid #333; display: block; margin: 0 auto; box-shadow: inset 0 0 20px #111; }
+        .game-ui { text-align: center; margin-bottom: 10px; font-family: 'Press Start 2P'; }
+        .game-btn { padding: 5px 10px; background: var(--accent-cyan); border: 2px solid #fff; cursor: pointer; font-family: inherit; margin: 0 5px; color: #000; }
+        .game-over-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); color: var(--accent-pink); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 50; text-align: center; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes popOut { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0; } }
+        @keyframes glitch-skew { 0% { transform: skew(0deg); } 20% { transform: skew(-10deg); } 40% { transform: skew(10deg); } 60% { transform: skew(-5deg); } 80% { transform: skew(5deg); } 100% { transform: skew(0deg); } }
     </style>
 </head>
 <body>
-    <canvas class="matrix-bg" id="matrix"></canvas>
-    <header>
-        <div class="logo">
-            <h1>&lt;/&gt; Axiax<span class="blink">_</span></h1>
+
+    <div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100001; justify-content: center; align-items: center; cursor: zoom-out;" onclick="this.style.display='none'">
+        <div id="lightbox-content" style="max-width: 90%; max-height: 90%; border: 4px solid var(--border-light); box-shadow: 0 0 30px var(--accent-cyan); background: var(--bg-panel); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Press Start 2P'; font-size: 2rem;"></div>
+        <div style="position: absolute; top: 20px; right: 20px; color: #fff; font-family: 'Press Start 2P'; font-size: 1rem;">[ ESC / CLICK TO CLOSE ]</div>
+    </div>
+
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="noise"></div>
+    <div id="selection-box"></div>
+
+    <audio id="bg-music" src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
+    
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="avatar-circle"><i class="fa-solid fa-user-astronaut"></i></div>
+            <div class="login-title">AXIAVX</div>
+            <div class="login-sub">SECURE TERMINAL ACCESS</div>
+            <button class="login-btn" onclick="attemptLogin()">[ LOGIN ]</button>
         </div>
-        <nav>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-section="about">About</a>
-                <a href="#" class="nav-link" data-section="projects">Projects</a>
-                <a href="#" class="nav-link" data-section="skills">Skills</a>
-                <a href="#" class="nav-link" data-section="contact">Contact</a>
+    </div>
+
+    <div id="bios-screen">
+        <div class="bios-text-container"></div>
+        <div class="classic-loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="right-sidebar">
+        <div class="widget-box">
+            <div class="widget-header"><i class="fa-solid fa-compact-disc"></i> Chill_Station</div>
+            <div class="music-container">
+                <div class="disk-wrapper" id="music-disk"><div class="disk-label"></div></div>
             </div>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="about" class="active">
-            <div class="terminal">
-                <div class="terminal-header">about.exe</div>
-                <h2 class="typing-animation">Hello, World! I'm Axiax</h2>
-                <p>
-                    Welcome to my terminal. I'm a passionate game developer and Python programmer
-                    specializing in creating interactive experiences and efficient backend solutions.
-                </p>
-                <p id="typewriter" style="margin-top: 20px;">
-                    <span id="typed-text"></span><span class="blink">█</span>
-                </p>
+            <div class="track-info">TRACK: Lofi_Beats_V1.mp3</div>
+            <div class="player-controls">
+                <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()" title="Play/Pause"></i>
             </div>
-            
-            <div class="terminal">
-                <div class="terminal-header">experience.sh</div>
-                <h3>About Me</h3>
-                    I specialize in developing games using HTML5/JavaScript and building robust backend systems with Python.
-                    My goal is to continue pushing the boundaries of what's possible in web game development while creating
-                    efficient and elegant solutions to complex problems.
-                </p>
-            </div>
-        </section>
-        <section id="projects">
-            <h2>&gt; My Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Tetris</h3>
-                    <p>
-                        A classic block-dropping puzzle game where players manipulate geometric shapes to create complete horizontal lines while preventing blocks from stacking too high. The game's simple mechanics mask a deep strategic challenge that tests spatial awareness and quick decision-making. As blocks fall faster, players must think and act quickly to survive in this timeless digital challenge of mathematical precision and gaming excitement.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">HTML</span>
-                        <span class="tech-tag">CSS</span>
-                        <span class="tech-tag">JAVASCRIPT</span>
-                    </div>
-                    <div class="project-buttons">
-                        <a href="https://jsfiddle.net/Axiax/46L25mzf/1/" class="project-button">Source</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3>R0ad Trip</h3>
-                    <p>
-                        A retro Chrom-Dino inspired game where the car automatically move forward through dynamically changing environments, challenging players to dodge obstacles using split-second reflexes. this game tests the players reaction time and spatial perception. Each run is a unique digital athletic challenge that pushes players to their limits.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">HTML</span>
-                        <span class="tech-tag">CSS</span>
-                        <span class="tech-tag">JAVASCRIPT</span>
-                    </div>
-                    <div class="project-buttons">
-                        <a href="https://jsfiddle.net/Axiax/t26auqem/1/" class="project-button">Source</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3>Tower Stacker</h3>
-                    <p>
-                        A game of precision where players carefully drop blocks to build the tallest possible structure without causing a collapse, with each block placement becoming a calculated risk. The challenge increases as the tower grows higher, testing players' understanding of timing and calmness.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">JAVASCRIPT</span>
-                        <span class="tech-tag">PYTHON</span>
-                        <span class="tech-tag">C#</span>
-                    </div>
-                    <div class="project-buttons">
-                        <a href="https://jsfiddle.net/Axiax/9h1r5wtb/10/" class="project-button">Source</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3>Space Invaders</h3>
-                    <p>
-                        A legendary arcade shooter where players defend Earth from descending alien spacecraft using a Space Craft laser cannon, shooting down alien formations. The game becomes progressively faster and more complex, testing shooting reflexes in a classic battle of survival against threats. Space Invaders defined an entire genre of arcade combat games, creating an iconic gaming experience.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">JAVASCRIPT</span>
-                        <span class="tech-tag">PYTHON</span>
-                        <span class="tech-tag">C++</span>
-                    </div>
-                    <div class="project-buttons">
-                        <a href="https://jsfiddle.net/Axiax/zj290h5x/1/" class="project-button">Source</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3>Nearest Dot Finder</h3>
-                    <p>
-                        A strategic pathfinding puzzle where players create a continuous path by always selecting the geometrically closest dot, challenging computational thinking and spatial perception. The game requires rapid mathematical calculations for each move, with the dot field becoming increasingly complex as players progress. It transforms mathematical reasoning into an engaging gameplay experience that tests players' ability to find the most efficient route.
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">JAVASCRIPT</span>
-                        <span class="tech-tag">C#</span>
-                        <span class="tech-tag">PYTHON</span>
-                    </div>
-                    <div class="project-buttons">
-                        <a href="https://jsfiddle.net/Axiax/2sbz3xjc/7/" class="project-button">Source</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="skills">
-            <h2>&gt; Skills</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    
-                    <p>Python</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 95%"></div>
-                    </div>
-                    
-                    <p>JavaScript</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
-                    </div>
-                    
-                    <p>C#</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 80%"></div>
-                    </div>
-                    
-                    <p>HTML/CSS</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 85%"></div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Frameworks & Tools</h3>
-                    
-                    <p>Django</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 85%"></div>
-                    </div>
-                    
-                    <p>Flask</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
-                    </div>
-                    
-                    <p>React</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 75%"></div>
-                    </div>
-                    
-                    <p>Unity</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 80%"></div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Game Development</h3>
-                    
-                    <p>Game Design</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 85%"></div>
-                    </div>
-                    
-                    <p>Game Physics</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 80%"></div>
-                    </div>
-                    
-                    <p>Procedural Generation</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 75%"></div>
-                    </div>
-                    
-                    <p>AI Programming</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 70%"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="terminal" style="margin-top: 3rem;">
-                <div class="terminal-header">experience.log</div>
-                <h3>Work Experience</h3>
-                <p>
-                    <strong>Currently None</strong>
-                </p>
-                <p>
-                    But i am looking forward to trying my best and developing even more projects and games.
-                </p>
-                
-                <h3 style="margin-top: 2rem;">Education</h3>
-                <p>
-                    <strong>Year 1 in Computer Science</strong>
-                </p>
-                <p>
-                    Focused on software engineering, algorithms, and game development.
-                </p>
-            </div>
-        </section>
-        
-        <section id="contact">
-            <h2>&gt; Contact</h2>
-            <div 
-            <div class="terminal" style="margin-top: 2rem;">
-                <div class="terminal-header">social.bat</div>
-                <h3>Find Me Online</h3>
-                <p>
-                    Discord: <a href="https://discord.com/users/1233060989021192243" target="_blank" style="color: var(--primary-color);">discord.com/connoting</a>
-                </p>
-                <p>
-                    Telegram: <a href="https://web.telegram.org/" target="_blank" style="color: var(--primary-color);">web.telegram.com/@Axiavx</a>
-                </p>
-                <p>
-                    Twitter: <a href="https://twitter.com/" target="_blank" style="color: var(--primary-color);">@Silos_Bentoz</a>
-                </p>
-                <p>
-                </p>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 Axiax | Game & Python Developer</p>
-        <div class="social-links">
-            <a href="https://discord.com/users/1233060989021192243" target="_blank">Discord</a>
-            <a href="https://web.telegram.org/" target="_blank">Telegram</a>
-            <a href="https://twitter.com/@Silos_Bentoz" target="_blank">Twitter</a>
-            <a href="#" 
+            <div class="widget-vol"><i class="fa-solid fa-volume-high"></i><input type="range" min="0" max="1" step="0.1" value="0.3" oninput="updateVolume(this.value)"></div>
         </div>
-    </footer>
-    
+
+        <div class="widget-box">
+            <div class="widget-header"><i class="fa-solid fa-eye"></i> WORK_STATUS</div>
+            <div class="avail-status">
+                <div class="status-light"></div>
+                <div class="status-text">AVAILABLE<br>FOR WORK</div>
+            </div>
+        </div>
+
+        <div class="widget-box">
+            <div class="widget-header"><i class="fa-solid fa-calendar-days"></i> ARTIST_TIME</div>
+            <div class="calendar-wrapper">
+                <div class="time-big" id="widget-time">00:00:00</div>
+                <div class="time-label">(UTC +7)</div>
+                <div class="date-display" id="widget-date">JAN 01 2024</div>
+            </div>
+        </div>
+
+        <div class="widget-box">
+            <div class="widget-header"><i class="fa-solid fa-chart-simple"></i> DATA_STREAM</div>
+            <div class="vis-container">
+                <div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div>
+                <div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div>
+            </div>
+            <div style="font-size:0.7rem; color:#aaa; margin-top:5px; text-align:center;" id="net-stat">NET_TRAFFIC: ACTIVE</div>
+        </div>
+
+        <div class="widget-box" style="height: 180px; display: flex; flex-direction: column;">
+            <div class="widget-header"><i class="fa-solid fa-microchip"></i> KERNEL_LOG</div>
+            <div id="sys-terminal"><div>> INIT_SYSTEM... OK</div></div>
+        </div>
+    </div>
+
+    <div id="desktop">
+        <div class="icon" onclick="cycleTheme()" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-palette"></i></div><div class="icon-text">Theme</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-about')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-user-astronaut"></i></div><div class="icon-text">Profile</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-gallery')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-folder-open"></i></div><div class="icon-text">Gallery</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-pricing')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-file-invoice-dollar"></i></div><div class="icon-text">Rates</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-payments')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-wallet"></i></div><div class="icon-text">Payment</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-snake')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-gamepad"></i></div><div class="icon-text">Snake</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-sketch')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-paintbrush"></i></div><div class="icon-text">Paint</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-calc')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon="ec"><i class="fa-solid fa-calculator"></i></div><div class="icon-text">Calc</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-notepad')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-solid fa-note-sticky"></i></div><div class="icon-text">Notes</div>
+        </div>
+        <div class="icon" onclick="openWindow('win-contact')" onmouseenter="playHover()">
+            <div class="icon-graphic" data-icon=""><i class="fa-brands fa-discord"></i></div><div class="icon-text">Contact</div>
+        </div>
+    </div>
+
+    <div id="start-menu">
+        <div class="start-header">AXIAVX_OS 98</div>
+        <div class="start-item" onclick="openWindow('win-about'); toggleStart()"><i class="fa-solid fa-user"></i> About Me</div>
+        <div class="start-item" onclick="openWindow('win-gallery'); toggleStart()"><i class="fa-solid fa-folder-open"></i> Gallery</div>
+        <div class="start-item" onclick="openWindow('win-pricing'); toggleStart()"><i class="fa-solid fa-tag"></i> Rates</div>
+        <div class="start-item" onclick="openWindow('win-payments'); toggleStart()"><i class="fa-solid fa-wallet"></i> Payment</div>
+        <hr style="width: 100%; border: 0; border-top: 1px solid #444; margin: 0;">
+        <div class="start-item" onclick="openWindow('win-snake'); toggleStart()"><i class="fa-solid fa-gamepad"></i> Snake</div>
+        <div class="start-item" onclick="openWindow('win-sketch'); toggleStart()"><i class="fa-solid fa-palette"></i> Paint</div>
+        <div class="start-item" onclick="openWindow('win-calc'); toggleStart()"><i class="fa-solid fa-calculator"></i> Calc</div>
+        <div class="start-item" onclick="openWindow('win-notepad'); toggleStart()"><i class="fa-solid fa-file-lines"></i> Notepad</div>
+        <hr style="width: 100%; border: 0; border-top: 1px solid #444; margin: 0;">
+        <div class="start-item" onclick="location.reload()"><i class="fa-solid fa-power-off" style="color: red;"></i> Shutdown</div>
+    </div>
+
+    <div id="win-about" class="window" style="top: 10%; left: 10%; width: 600px;">
+        <div class="title-bar"><div class="title-text">USER_PROFILE.EXE</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-about')">_</div><div class="win-btn btn-close" onclick="closeWin('win-about')">X</div></div></div>
+        <div class="window-body">
+            <div class="profile-grid">
+                <div>
+					<div class="profile-pic" style="overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000;">
+						<img src="https://media.discordapp.net/attachments/1233064769334808588/1451083540388118629/c5fc2152155572f09f29231714032e78.png?ex=6944e25b&is=694390db&hm=60b68c9356eefdd7b2033c4e31f09b2624bccf99d1d7e289dcf7eb1cc8a05110&=&format=webp&quality=lossless&width=316&height=561" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+					<div style="text-align:center; margin-top:5px; color:var(--accent-pink); font-size:0.8rem;">LVL. 24</div>
+					<div style="text-align:center; color:#fff; font-size:0.7rem;">3D Artist</div>
+                </div>
+                <div>
+                    <h2>// STATS</h2>
+                    <div class="stat-block"><div class="stat-name"><span>Blender</span><span>95%</span></div><div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div></div>
+                    <div class="stat-block"><div class="stat-name"><span>Substance Painter</span><span>88%</span></div><div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div></div>
+                    <div class="stat-block"><div class="stat-name"><span>Z-Brush</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div></div>
+                </div>
+            </div>
+            <div class="hardware-box">
+                <div style="color:var(--accent-cyan); margin-bottom:5px;">[Experience In Categories]</div>
+                <div class="hw-item"><span>Props:</span> <span>5 Years+</span></div>
+                <div class="hw-item"><span>Environment Assets:</span> <span>4 Years+</span></div>
+                <div class="hw-item"><span>UGC:</span> <span>3 Years+</span></div>
+                <div class="hw-item"><span>Hard_surface:</span> <span>3 Years+</span></div>
+            </div>
+            <div class="about-section">
+                <h2>// BIO</h2>
+                <p style="font-size:1rem;" id="bio-text"></p>
+                <span id="bio-source" style="display:none;">Specializing.in.optimized.low-poly.aesthetics.and.high-fidelity.environment.maps. I.construct.digital.realities.ready.for.game-engines.</span>
+            </div>
+            <div class="about-section">
+                <h2>// SOFTWARE STACK</h2>
+                <div style="margin-bottom: 10px;">
+                    <span class="skill-tag">Blender</span><span class="skill-tag">Substance-Painter</span><span class="skill-tag">Z-Brush</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-gallery" class="window" style="top: 15%; left: 45%; width: 500px; height: 400px;">
+        <div class="title-bar"><div class="title-text">GALLERY_EXPLORER</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-gallery')">_</div><div class="win-btn btn-close" onclick="closeWin('win-gallery')">X</div></div></div>
+        <div class="window-body">
+            <div id="gallery-root" class="gallery-folders">
+                <div class="g-folder" onclick="openGalleryFolder('UGC')"><i class="fa-solid fa-folder g-icon"></i><div class="g-name">/UGC_Assets</div></div>
+				<div class="g-folder" onclick="openGalleryFolder('VEHICLES')"><i class="fa-solid fa-folder g-icon"></i><div class="g-name">/Vehicles</div></div>
+				<div class="g-folder" onclick="openGalleryFolder('CULINARY')"><i class="fa-solid fa-folder g-icon"></i><div class="g-name">/Culinary</div></div>
+                <div class="g-folder" onclick="openGalleryFolder('ENVIRON')"><i class="fa-solid fa-folder g-icon"></i><div class="g-name">/Environments</div></div>
+            </div>
+            <div id="gallery-content" class="gallery-content-view">
+                <button class="back-btn" onclick="closeGalleryFolder()">< BACK TO ROOT</button>
+                <div style="border-bottom: 1px dashed #555; padding-bottom: 5px; color: var(--accent-cyan); margin-bottom: 5px;" id="gallery-cat-title">INDEX OF /</div>
+                <div class="gallery-grid" id="gallery-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-pricing" class="window" style="top: 20%; left: 20%; width: 420px;">
+        <div class="title-bar"><div class="title-text">RATES.XLS</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-pricing')">_</div><div class="win-btn btn-close" onclick="closeWin('win-pricing')">X</div></div></div>
+        <div class="window-body">
+            <h2>// SINGLE MODELS</h2>
+            <div class="pricing-grid">
+                <div class="p-row"><div class="p-item">Low Poly</div><div class="p-price">$5 - $15</div></div>
+                <div class="p-row"><div class="p-item">Mid Poly</div><div class="p-price">$15 - $30</div></div>
+                <div class="p-row"><div class="p-item">High Poly</div><div class="p-price">$30 - $60+</div></div>
+                <div class="p-row"><div class="p-item">Prices Per Model With Texture</div></div>
+				<div class="p-row"><div class="p-item">Can be Discussed.</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-payments" class="window" style="top: 25%; left: 25%; width: 350px;">
+        <div class="title-bar"><div class="title-text">WALLET.EXE</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-payments')">_</div><div class="win-btn btn-close" onclick="closeWin('win-payments')">X</div></div></div>
+        <div class="window-body">
+            <h2>// PAYMENTS</h2>
+            <div class="pay-grid">
+                <div class="pay-item"><div class="pay-icon"><i class="fa-brands fa-paypal"></i></div><div class="pay-info"><div style="color: var(--accent-cyan);">PAYPAL</div></div></div>
+                <div class="pay-item"><div class="pay-icon"><i class="fa-solid fa-dollar-sign"></i></div><div class="pay-info"><div style="color: var(--accent-cyan);">CASHAPP</div></div></div>
+                <div class="pay-item"><div class="pay-icon"><i class="fa-brands fa-bitcoin"></i></div><div class="pay-info"><div style="color: var(--accent-cyan);">CRYPTO</div></div></div>
+                <div class="pay-item"><div class="pay-icon"><i class="fa-solid fa-shapes"></i></div><div class="pay-info"><div style="color: var(--accent-cyan);">ROBUX</div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-calc" class="window" style="top: 30%; left: 40%; width: 250px;">
+        <div class="title-bar"><div class="title-text">CALC.EXE</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-calc')">_</div><div class="win-btn btn-close" onclick="closeWin('win-calc')">X</div></div></div>
+        <div class="window-body" style="background: #aaa;">
+            <div class="calc-display" id="calc-out">0</div>
+            <div class="calc-grid">
+                <div class="calc-btn" onclick="calcInput('7')">7</div><div class="calc-btn" onclick="calcInput('8')">8</div><div class="calc-btn" onclick="calcInput('9')">9</div><div class="calc-btn op-btn" onclick="calcInput('/')">/</div>
+                <div class="calc-btn" onclick="calcInput('4')">4</div><div class="calc-btn" onclick="calcInput('5')">5</div><div class="calc-btn" onclick="calcInput('6')">6</div><div class="calc-btn op-btn" onclick="calcInput('*')">*</div>
+                <div class="calc-btn" onclick="calcInput('1')">1</div><div class="calc-btn" onclick="calcInput('2')">2</div><div class="calc-btn" onclick="calcInput('3')">3</div><div class="calc-btn op-btn" onclick="calcInput('-')">-</div>
+                <div class="calc-btn" onclick="calcInput('0')">0</div><div class="calc-btn op-btn" onclick="calcBackspace()">←</div><div class="calc-btn eq-btn" onclick="calcRes()">=</div><div class="calc-btn op-btn" onclick="calcInput('+')">+</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-notepad" class="window" style="top: 25%; left: 35%; width: 350px; height: 300px;">
+        <div class="title-bar"><div class="title-text">NOTEPAD</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-notepad')">_</div><div class="win-btn btn-close" onclick="closeWin('win-notepad')">X</div></div></div>
+        <div class="window-body" style="background: #fff; padding: 0;"><textarea style="width: 100%; height: 100%; border: none; resize: none; padding: 10px; font-family: 'Courier New'; outline: none;"></textarea></div>
+    </div>
+
+    <div id="win-sketch" class="window" style="top: 5%; left: 50%; width: 400px; height: 400px;">
+        <div class="title-bar"><div class="title-text">MS_PAINT</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-sketch')">_</div><div class="win-btn btn-close" onclick="closeWin('win-sketch')">X</div></div></div>
+        <div class="window-body" style="background: #ddd; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="tool-bar">
+                <div class="color-pick" style="background: #000;" onclick="setBrush('#000')"></div>
+                <div class="color-pick" style="background: #f72585;" onclick="setBrush('#f72585')"></div>
+                <div class="color-pick" style="background: #4cc9f0;" onclick="setBrush('#4cc9f0')"></div>
+                <button onclick="clearSketch()" style="font-family:'VT323'; cursor:pointer;">CLEAR</button>
+            </div>
+            <div style="flex-grow:1; position: relative;"><canvas id="sketch-canvas"></canvas></div>
+        </div>
+    </div>
+
+    <div id="win-contact" class="window" style="top: 35%; left: 45%; width: 350px;">
+        <div class="title-bar"><div class="title-text">SOCIALS</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-contact')">_</div><div class="win-btn btn-close" onclick="closeWin('win-contact')">X</div></div></div>
+        <div class="window-body">
+            <h2>// CONTACT</h2>
+            <div class="contact-row"><i class="fa-brands fa-discord" style="color: #5865F2;"></i><div><div style="font-size: 0.8rem; color: #aaa;">DISCORD</div><div>axiavx / @1233060989021192243</div></div></div>
+        </div>
+    </div>
+
+    <div id="win-snake" class="window" style="top: 20%; left: 35%; width: 350px;">
+        <div class="title-bar"><div class="title-text">SNAKE_GAME.EXE</div><div class="window-controls"><div class="win-btn btn-min" onclick="minWin('win-snake')">_</div><div class="win-btn btn-close" onclick="closeWin('win-snake')">X</div></div></div>
+        <div class="window-body">
+            <div class="game-ui">SCORE: <span id="snake-score">0</span><br></div>
+            <div style="position: relative;">
+                <canvas id="snake-canvas" width="300" height="300"></canvas>
+                <div class="game-over-overlay" id="game-over-screen">
+                    <h2>GAME OVER</h2>
+                    <p style="font-size: 0.9rem;">FINAL SCORE: <span id="final-score">0</span></p>
+                    <button class="game-btn" onclick="resetSnake()">TRY AGAIN</button>
+                </div>
+            </div>
+            <div style="text-align:center; font-size:0.8rem; margin-top:5px;">Use Arrow Keys. Click to Start.</div>
+            <div style="text-align:center;"><button class="game-btn" onclick="startSnake()">START</button></div>
+        </div>
+    </div>
+
+    <div id="taskbar">
+        <div class="start-btn" onclick="toggleStart(); playSfx('click')"><i class="fa-brands fa-windows"></i> START</div>
+        <div class="task-list" id="task-list"></div>
+        <div class="tray">
+            <div id="clock">LOCAL TIME</div>
+        </div>
+    </div>
+
     <script>
-        // Navigation
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('section');
-        
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+        // --- SFX ---
+        const sfx = {
+            click: new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAAD/AP8A/w=="),
+            hover: new Audio("data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQYAAAAAAAAAAP8="),
+        };
+        function playSfx(type) {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator(); const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            if (type === 'click') {
+                osc.type = 'square'; osc.frequency.value = 800; gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1); osc.start(); osc.stop(ctx.currentTime + 0.1);
+            } else if (type === 'hover') {
+                osc.type = 'sine'; osc.frequency.value = 300; gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05); osc.start(); osc.stop(ctx.currentTime + 0.05);
+            }
+        }
+        function playHover() { playSfx('hover'); }
+
+        // --- LOGIN ---
+        function attemptLogin() {
+            playSfx('click');
+            document.getElementById('login-screen').style.display = 'none';
+            const bios = document.getElementById('bios-screen'); bios.style.display = 'flex';
+            const textContainer = bios.querySelector('.bios-text-container');
+            const texts = ["INITIALIZING AXIAVX_OS...", "MOUNTING DRIVES...", "LOADING GUI..."];
+            let delay = 0;
+            texts.forEach((text) => { setTimeout(() => { textContainer.innerHTML += `<div class="bios-line">${text}</div>`; }, delay); delay += 800; });
+            setTimeout(() => {
+                bios.style.opacity = '0'; bios.style.transition = 'opacity 0.5s';
+                setTimeout(() => { 
+                    bios.style.display = 'none'; 
+                    generateCalendar(); 
+                    initAudio(); 
+                    togglePlay(); 
+                    loadSettings(); // LOAD SAVED SETTINGS
+                }, 500);
+            }, delay + 1000);
+        }
+
+        // --- SYSTEM MEMORY & THEMES ---
+        const themes = ['cyber', 'matrix', 'retro', 'polar', 'paper'];
+        let currentTheme = 0; let starColor = "255, 255, 255";
+
+        function saveTheme(themeName) {
+            localStorage.setItem('nexus_theme', themeName);
+        }
+
+        function loadSettings() {
+            const savedTheme = localStorage.getItem('nexus_theme');
+            if (savedTheme) {
+                if(savedTheme === 'cyber') document.body.removeAttribute('data-theme');
+                else document.body.setAttribute('data-theme', savedTheme);
                 
-                // Remove active class from all links
-                navLinks.forEach(l => l.classList.remove('active'));
+                const themeIndex = themes.indexOf(savedTheme);
+                if (themeIndex !== -1) currentTheme = themeIndex;
                 
-                // Add active class to clicked link
-                this.classList.add('active');
+                // Set star colors directly
+                if(savedTheme === 'polar') starColor = "0, 0, 0"; 
+                else if(savedTheme === 'paper') starColor = "50, 50, 50"; 
+                else if(savedTheme === 'matrix') starColor = "0, 255, 0"; 
+                else if(savedTheme === 'retro') starColor = "255, 200, 0"; 
+                else starColor = "255, 255, 255";
+            }
+        }
+
+        function cycleTheme() {
+            playSfx('click'); currentTheme = (currentTheme + 1) % themes.length; const themeName = themes[currentTheme];
+            
+            if(themeName === 'cyber') document.body.removeAttribute('data-theme'); else document.body.setAttribute('data-theme', themeName);
+            
+            if(themeName === 'polar') starColor = "0, 0, 0"; 
+            else if(themeName === 'paper') starColor = "50, 50, 50"; 
+            else if(themeName === 'matrix') starColor = "0, 255, 0"; 
+            else if(themeName === 'retro') starColor = "255, 200, 0"; 
+            else starColor = "255, 255, 255";
+            
+            saveTheme(themeName); // SAVE TO MEMORY
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+        }
+
+        // --- TYPING ---
+        let typeInterval;
+        function typeText(targetId, sourceId) {
+            const target = document.getElementById(targetId); const source = document.getElementById(sourceId).innerText;
+            target.innerText = ""; clearInterval(typeInterval); let i = 0;
+            typeInterval = setInterval(() => { if (i < source.length) { target.innerText += source.charAt(i); i++; } else { clearInterval(typeInterval); } }, 30);
+        }
+
+        // --- AUDIO ---
+        const audio = document.getElementById('bg-music'); const musicDisk = document.getElementById('music-disk'); const playPauseBtn = document.getElementById('play-pause-btn');
+        function initAudio() { audio.volume = 0.3; }
+        function togglePlay() {
+            if(audio.paused) { audio.play().then(() => { playPauseBtn.className = "fa-solid fa-pause"; musicDisk.classList.add('playing'); }).catch(e => console.log("Audio blocked")); } 
+            else { audio.pause(); playPauseBtn.className = "fa-solid fa-play"; musicDisk.classList.remove('playing'); }
+        }
+        function updateVolume(val) { audio.volume = val; }
+
+        // --- CLOCK & CALENDAR ---
+        function updateWidgetClock() {
+            const now = new Date(); const utc = now.getTime() + (now.getTimezoneOffset() * 60000); const myTime = new Date(utc + (3600000 * 7));
+            const h = myTime.getHours().toString().padStart(2,'0'); const m = myTime.getMinutes().toString().padStart(2,'0'); const s = myTime.getSeconds().toString().padStart(2,'0');
+            const td = document.getElementById('widget-time'); if(td) td.innerText = `${h}:${m}:${s}`;
+            
+            if(Math.random() > 0.95) document.getElementById('net-stat').innerText = "NET_TRAFFIC: " + (Math.floor(Math.random()*500)+100) + " MB/s";
+        }
+        function updateTaskbarClock() {
+            const now = new Date(); let h = now.getHours(); const m = now.getMinutes().toString().padStart(2,'0'); const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12; h = h ? h : 12; document.getElementById('clock').innerText = `${h}:${m} ${ampm}`;
+        }
+        setInterval(updateWidgetClock, 1000); setInterval(updateTaskbarClock, 1000);
+        function generateCalendar() {
+            const date = new Date(); const day = date.getDate(); const month = date.toLocaleString('default', { month: 'short' }); const year = date.getFullYear();
+            document.getElementById('widget-date').innerText = `${month.toUpperCase()} ${day} ${year}`;
+        }
+
+        // --- WINDOWS ---
+        let zIndex = 100; let activeWins = [];
+        function openWindow(id) {
+            playSfx('click'); const win = document.getElementById(id);
+            if (win.style.display === 'flex' && !win.classList.contains('closing')) { bringFront(id); return; }
+            win.classList.remove('closing'); win.style.display = 'flex'; win.classList.add('opening');
+            setTimeout(() => win.classList.remove('opening'), 300);
+            if (!activeWins.includes(id)) activeWins.push(id);
+            bringFront(id); updateTaskbar();
+            if(id === 'win-sketch') initSketch();
+            if(id === 'win-snake') document.getElementById('game-over-screen').style.display = 'none';
+            if(id === 'win-about') typeText('bio-text', 'bio-source');
+        }
+        function closeWin(id) {
+            playSfx('click'); const win = document.getElementById(id); win.classList.add('closing');
+            setTimeout(() => { win.style.display = 'none'; win.classList.remove('closing'); activeWins = activeWins.filter(w => w !== id); updateTaskbar(); }, 200);
+            if(id === 'win-gallery') closeGalleryFolder();
+        }
+        function minWin(id) { playSfx('click'); closeWin(id); }
+        function toggleWin(id) { const win = document.getElementById(id); if(win.style.display === 'none' || win.classList.contains('closing')){ openWindow(id); } else { minWin(id); } }
+        function bringFront(id) {
+            zIndex++; document.getElementById(id).style.zIndex = zIndex;
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // --- GALLERY ---
+        // --- GALLERY DATA & LOGIC ---
+        // 1. ADD YOUR IMAGE LINKS HERE
+        const galleryImages = {
+            'UGC': [
+                'https://media.discordapp.net/attachments/1233064769334808588/1450839786805002250/image.png?ex=6943ff58&is=6942add8&hm=d9725ec8b146431db2b62ef96745bb082a3837e076dd1b1e5fe1d14f13b3a69f&=&format=webp&quality=lossless&width=213&height=233',
+                'https://media.discordapp.net/attachments/1233064769334808588/1450833465724506183/image.png?ex=6943f975&is=6942a7f5&hm=22b32bed0c1476977aa9d5898a1cc6e383a8e0b179130e0437773e3c95b3c54f&=&format=webp&quality=lossless&width=386&height=361',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450839908490150032/FFC56ED2-9A22-4E75-ADC5-F8501FC0495B.png?ex=6943ff75&is=6942adf5&hm=4b9c5ffcb47af9172f226e0d37ffd909a983c2a2b16d864d1c433f69e81c8abe&=&format=webp&quality=lossless&width=385&height=357',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450840153424793620/image.png?ex=6943ffaf&is=6942ae2f&hm=d3bd28b5b9f685b0675f19512de7efa08f2c1640ea553873ea1e05330ae739e4&=&format=webp&quality=lossless&width=475&height=377',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450840218537037894/AE670CE3-A047-4763-9EFC-5BDBAE02E10F.png?ex=6943ffbf&is=6942ae3f&hm=557c7e71d5c8b0c7c1e1f3bf8492fb309c7f90adda80ded2848a36d2666684a6&=&format=webp&quality=lossless&width=247&height=233',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450840817441706084/image.png?ex=6944004e&is=6942aece&hm=56d7b52bf279d754e57ebfb4b89612652906c053c2d26f114621ffd5ffa0f313&=&format=webp&quality=lossless&width=280&height=325',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450842133362901023/image.png?ex=69440187&is=6942b007&hm=96e6af6bb4e99ab8683e3df9ab731c031731a07d4553bf3646abc02de947f050&=&format=webp&quality=lossless&width=184&height=233',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450842246298734744/image.png?ex=694401a2&is=6942b022&hm=7420a91f5e4732223d900180a2aa2e7a3b54bf0c4496fda2c66ec31909a8b64c&=&format=webp&quality=lossless&width=322&height=342',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450842660859543798/image.png?ex=69440205&is=6942b085&hm=6407bd1030f74c1635637b6ac650815210e9211e1b2c62f2142e92a36b2c14a7&=&format=webp&quality=lossless&width=275&height=343',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450843817443069952/image.png?ex=69440319&is=6942b199&hm=7d33fe950f8b63a7f560b7d0df11cc0f40d4c560a44124190866baa6baee9a15&=&format=webp&quality=lossless&width=317&height=336',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450844120808427532/image.png?ex=69440361&is=6942b1e1&hm=0e77f0d5c87f4d1590ade657720e97db6b30a00c741ffed2c39cfc6f42e36ffe&=&format=webp&quality=lossless&width=313&height=348',
+                'https://media.discordapp.net/attachments/1233064769334808588/1450862653961670808/image.png?ex=694414a4&is=6942c324&hm=fbd6d033060d0091ab09158e085666caf17f45be6520152268a712b33949e7a3&=&format=webp&quality=lossless&width=341&height=347'
+            ],
+            'VEHICLES': [
+                'https://media.discordapp.net/attachments/1233064769334808588/1450872376068931594/image.png?ex=69441db2&is=6942cc32&hm=6e6f04d584bf29664c769ffb651c4dd08a95814ac3b7b00ba932d65ec0c3dfb9&=&format=webp&quality=lossless&width=540&height=243',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450872504959897740/image.png?ex=69441dd1&is=6942cc51&hm=a52d7b1e08e5a8047a3b57e8e32f40883cc140df8d5c1c0bb31ceb08aea76165&=&format=webp&quality=lossless&width=587&height=251',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450872714335227975/image.png?ex=69441e03&is=6942cc83&hm=0c6ae807c7eeba0c1bddfa6ba23e782d6870b0b304d27b2798cd2f45e0191942&=&format=webp&quality=lossless&width=582&height=282',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450872841284096240/08CC7CCC-83FC-450B-AF04-7DF6B0804CE0.png?ex=69441e21&is=6942cca1&hm=57ae064c3859a2e39532d7399d63e118b14822d345559f8c552547f27deb7fad&=&format=webp&quality=lossless&width=595&height=266',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451037725955194952/image.png?ex=6944b7b0&is=69436630&hm=d59d7be6780b5964f67bee2cd2224fec6abaa5b48b45778b3e102784490f674d&=&format=webp&quality=lossless&width=581&height=265',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451037726441996429/06B75E82-EDDF-4E3B-BF78-3B168C880FA3.png?ex=6944b7b0&is=69436630&hm=6d9950be5bf1dcaafeae4985e3efac9d41e6308fb90fceca9b5ced69186418a5&=&format=webp&quality=lossless&width=563&height=247',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450867376093528216/image.png?ex=6944190a&is=6942c78a&hm=399cbbf31ea3d49c3b77c0754b2e9c5f0e0d1196b9d781cf9ebcb7c8eba27813&=&format=webp&quality=lossless&width=509&height=321',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450867442053288051/image.png?ex=69441919&is=6942c799&hm=8723b718cd9181e6c007f2731f2f1cad5f2c1e0fa061b57af22d7afd74a62cc0&=&format=webp&quality=lossless&width=401&height=271',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450867640057729157/B04EC3F5-F1CD-4B2A-A57E-02A6C482C5AF.png?ex=69441949&is=6942c7c9&hm=787f42e3f7a64cc95c4bd1393bdbdfb289baff564e67d3cead8c2ea1693867e0&=&format=webp&quality=lossless&width=495&height=299',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450867735645913129/45877D9A-7361-4906-A8E4-66AEC961150A.png?ex=6944195f&is=6942c7df&hm=3269a025db25222eccd385b8a57fc16cfaaa827b7ac2e1c89dbe6a19741854e3&=&format=webp&quality=lossless&width=487&height=295',
+				'https://media.discordapp.net/attachments/1233064769334808588/1450868675174207600/image.png?ex=69441a3f&is=6942c8bf&hm=a3309e54ac052a7081f33730a5467c35feeb960f60986c6bd57edecd54024189&=&format=webp&quality=lossless&width=503&height=313',
+                'https://media.discordapp.net/attachments/1233064769334808588/1450870854782156981/image.png?ex=69441c47&is=6942cac7&hm=3e0a17ceca8f67b81c80ea2233996c7102576d211928074b5201351562e73ede&=&format=webp&quality=lossless&width=505&height=272',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451046355148603565/image.png?ex=6944bfba&is=69436e3a&hm=0402eec04efe750b7b7bc9abd0eb0067b8d38437f1e28d3d903f70169a31361b&=&format=webp&quality=lossless&width=487&height=284'
+            ],
+			            'CULINARY': [
+                'https://media.discordapp.net/attachments/1233064769334808588/1451041083298676908/image.png?ex=6944bad1&is=69436951&hm=37a907b68fd34c64f8fbd7ba59415e055682b72d3b5fd8750c738c263f52c43b&=&format=webp&quality=lossless&width=441&height=339',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451041417358082140/180CDEF9-E68B-48F8-B4E4-819B66C8B563.png?ex=6944bb20&is=694369a0&hm=4e6a644eed8346ea878f41d5494e3a6dce5060e2ece5b4a88681e6f64eb5954e&=&format=webp&quality=lossless&width=406&height=331',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451043531845140584/image.png?ex=6944bd19&is=69436b99&hm=f06a8fcb2ed621d156d8be232a6500dd4bccea739c4060b5e28b8b26d72d1403&=&format=webp&quality=lossless&width=297&height=233',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451043588342415482/image.png?ex=6944bd26&is=69436ba6&hm=7ac9dc4ad4fc80d386f5353db6020e5279ee299673d250515fb8eda682d9815c&=&format=webp&quality=lossless&width=397&height=302',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451043942530551991/2F31AAD0-38D4-4BB2-A81F-1D7CC9926402.png?ex=6944bd7a&is=69436bfa&hm=0b3f762720fc9fd731a4550149296bfb77c0c38dfd426891f95efead4db12622&=&format=webp&quality=lossless&width=522&height=339',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451044060747006106/image.png?ex=6944bd97&is=69436c17&hm=a07f0eb6eb135ce0089e3de960b87bacb270623a89f7374050668a7734e22823&=&format=webp&quality=lossless&width=473&height=320',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451044304557707315/image.png?ex=6944bdd1&is=69436c51&hm=4fef36e3ee5679d9cc0c06a143464a4686819f40306f00b5a9cb2ee249940ca7&=&format=webp&quality=lossless&width=377&height=283',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451044516067807333/image.png?ex=6944be03&is=69436c83&hm=88fcd32adacafc8359b56250c826285b4ab0fc11b0b91a852806aa29726334c5&=&format=webp&quality=lossless&width=465&height=303',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451054759686443030/32542961-7849-49D9-B068-AB61DA8D0201.png?ex=6944c78e&is=6943760e&hm=d423a193d28d3e01a7204716ccfce01ccdc1bfff9b3d02ff00070c3b4a4ecfce&=&format=webp&quality=lossless&width=583&height=273',
+                'https://media.discordapp.net/attachments/1233064769334808588/1451054893958697100/image.png?ex=6944c7ae&is=6943762e&hm=944dc5dccaa7db5e51a909e1ec70c69a016c60fcb5939421daded71cd097c483&=&format=webp&quality=lossless&width=250&height=233'
+            ],
+            'ENVIRON': [
+                'https://media.discordapp.net/attachments/1233064769334808588/1451052360293154856/image.png?ex=6944c551&is=694373d1&hm=88cb37ac4284ec9a8aed660903325a614316c2f47308b1c48e948cf04baac688&=&format=webp&quality=lossless&width=750&height=381',
+                'https://media.discordapp.net/attachments/1233064769334808588/1451052495848865955/image.png?ex=6944c572&is=694373f2&hm=73c1d172b37a89a5efea62b51b59654c585766040fe8354a0ee5d92bf3b7ded3&=&format=webp&quality=lossless&width=751&height=396',
+                'https://media.discordapp.net/attachments/1233064769334808588/1451052360888484123/image.png?ex=6944c552&is=694373d2&hm=249ba31863afd34cc02da409a9344276634d1b0f3cd93057fd79dcd52cfafa0d&=&format=webp&quality=lossless&width=753&height=397',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451052955603173457/46BEDD0A-0715-4DD4-B376-4CEC6E007CA4.png?ex=6944c5df&is=6943745f&hm=0212d0648b53478d83a040b5a2cfb7c29be935ce12c4032298c68216c7077f55&=&format=webp&quality=lossless&width=750&height=396',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451053159588958248/image.png?ex=6944c610&is=69437490&hm=2da3b41d4609a2ae4936a48c52ca24b615b0ca8a3e7bf6b30aa0535fb2a5611b&=&format=webp&quality=lossless&width=748&height=401',
+				'https://media.discordapp.net/attachments/1233064769334808588/1451053661835759687/image.png?ex=6944c688&is=69437508&hm=060e5bf72c4cb522f61785cdd37c3e98334723358e8e12d29245cedc77db599a&=&format=webp&quality=lossless&width=559&height=231',
+                'https://media.discordapp.net/attachments/1233064769334808588/1451053662146269275/image.png?ex=6944c688&is=69437508&hm=ec3ff83304cec3d224bcd16117973db896a875d560812260fe87c973750dd74c&=&format=webp&quality=lossless&width=564&height=231'
+            ]
+        };
+
+        function openGalleryFolder(category) {
+            playSfx('click');
+            document.getElementById('gallery-root').style.display = 'none';
+            document.getElementById('gallery-content').style.display = 'flex';
+            document.getElementById('gallery-cat-title').innerText = "INDEX OF /" + category;
+            
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            
+            // Get images for this category (or empty list if none)
+            const images = galleryImages[category] || [];
+
+            if(images.length === 0) {
+                grid.innerHTML = '<div style="color:#aaa; padding:10px;">[DIR_EMPTY]</div>';
+            }
+
+            // Loop through your ACTUAL images
+            images.forEach((imgSrc, index) => {
+                const item = document.createElement('div'); 
+                item.className = 'gallery-rect';
                 
-                // Hide all sections
-                sections.forEach(section => section.classList.remove('active'));
+                // Show thumbnail image in the grid
+                // We use background-image for the thumbnail to keep it neat
+                item.style.backgroundImage = `url('${imgSrc}')`;
+                item.style.backgroundSize = 'cover';
+                item.style.backgroundPosition = 'center';
                 
-                // Show the selected section
-                const sectionId = this.getAttribute('data-section');
-                document.getElementById(sectionId).classList.add('active');
+                // On click, send the full image Source to the lightbox
+                item.setAttribute('onclick', `enlargeImage('${imgSrc}')`);
                 
-                // Initialize Tetris if on projects page
-                if (sectionId === 'projects') {
-                    initTetris();
-                }
+                // Optional: Add a label overlay
+                item.innerHTML = `<div class="rect-name" style="background:rgba(0,0,0,0.7); width:100%; margin-top:auto;">${category}_0${index+1}</div>`;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        function closeGalleryFolder() { 
+            playSfx('click'); 
+            document.getElementById('gallery-root').style.display = 'flex'; 
+            document.getElementById('gallery-content').style.display = 'none'; 
+        }
+
+        // --- LIGHTBOX (UPDATED FOR REAL IMAGES) ---
+        function enlargeImage(src) {
+            playSfx('click');
+            const lb = document.getElementById('lightbox');
+            const lbContent = document.getElementById('lightbox-content');
+            
+            // Inject an actual IMG tag now
+            lbContent.innerHTML = `<img src="${src}" style="max-width:100%; max-height:100%; border:2px solid var(--accent-cyan); box-shadow:0 0 20px var(--accent-pink);">`;
+            
+            lb.style.display = 'flex';
+        }
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === "Escape") document.getElementById('lightbox').style.display = 'none'; 
+        });
+
+        // --- TERMINAL ANIMATION ---
+        const terminal = document.getElementById('sys-terminal');
+        const logMessages = ["Scanning Sector 7...", "Texture_Cache: UPDATED", "Ping: 24ms [SECURE]", "Optimizing Polygon Count...", "Rendering: Frame_2049", "GPU Temp: 65°C", "Memory Integrity: 100%", "Downloading Assets...", "Nexus_Link: CONNECTED", "Background Process: IDLE", "Encrypting Data Stream...", ">> CMD: EXECUTE_BATCH"];
+        function updateTerminal() {
+            if(!terminal) return;
+            const div = document.createElement('div');
+            const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+            const now = new Date();
+            const ts = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+            div.innerHTML = `<span style="color: #666;">[${ts}]</span> ${randomMsg}`;
+            terminal.appendChild(div);
+            if(terminal.children.length > 8) terminal.removeChild(terminal.children[0]);
+        }
+        setInterval(updateTerminal, 1500);
+
+        // --- DRAG ---
+        document.querySelectorAll('.window').forEach(win => {
+            win.addEventListener('mousedown', () => bringFront(win.id));
+            const title = win.querySelector('.title-bar'); let isDragging = false; let offset = { x: 0, y: 0 }; let lastGhostTime = 0;
+            title.addEventListener('mousedown', (e) => { isDragging = true; offset.x = e.clientX - win.offsetLeft; offset.y = e.clientY - win.offsetTop; document.getElementById('start-menu').style.display = 'none'; });
+            document.addEventListener('mouseup', () => isDragging = false);
+            document.addEventListener('mousemove', (e) => {
+                if(!isDragging) return;
+                win.style.left = (e.clientX - offset.x) + 'px'; win.style.top = (e.clientY - offset.y) + 'px';
+                const now = Date.now(); if (now - lastGhostTime > 50) { createGhost(win); lastGhostTime = now; }
             });
         });
-        
-        // Matrix background effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}:"<>?[];,./';
-        const letters = latin.split('');
-        
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        
-        const drops = [];
-        for(let i = 0; i < columns; i++) {
-            drops[i] = 1;
+        function createGhost(win) {
+            const ghost = document.createElement('div'); ghost.className = 'window-ghost';
+            ghost.style.width = win.offsetWidth + 'px'; ghost.style.height = win.offsetHeight + 'px';
+            ghost.style.left = win.offsetLeft + 'px'; ghost.style.top = win.offsetTop + 'px'; ghost.style.zIndex = zIndex - 1;
+            document.body.appendChild(ghost); setTimeout(() => { ghost.style.opacity = '0'; setTimeout(() => ghost.remove(), 300); }, 50);
         }
-        
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#00ff00';
-            ctx.font = fontSize + 'px monospace';
-            
-            for(let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                
-                drops[i]++;
-            }
+        function toggleStart() { playSfx('click'); const menu = document.getElementById('start-menu'); if(menu.style.display==='flex'){ menu.style.display='none'; } else { menu.style.display='flex'; zIndex++; menu.style.zIndex=zIndex+999; } }
+        document.getElementById('desktop').addEventListener('mousedown', () => document.getElementById('start-menu').style.display = 'none');
+        function updateTaskbar() {
+            const list = document.getElementById('task-list'); list.innerHTML = '';
+            activeWins.forEach(id => {
+                const title = document.getElementById(id).querySelector('.title-text').innerText;
+                const div = document.createElement('div'); div.className = 'task-item';
+                if(document.getElementById(id).classList.contains('active')) div.classList.add('active-task');
+                div.innerText = title; div.onclick = () => toggleWin(id); list.appendChild(div);
+            });
         }
-        
-        setInterval(drawMatrix, 50);
-        
-        // Window resize handling
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-        
-        // Typewriter effect
-        const textToType = [
-            "I build games that engage and entertain.",
-            "I create Python scripts and applications that solve real problems.",
-            "I love turning complex ideas into elegant solutions.",
-            "Let's collaborate on your next project!"
-        ];
-        
-        let textIndex = 0;
-        let charIndex = 0;
-        const typingSpeed = 50; // milliseconds per character
-        const pauseTime = 2000; // pause between text changes
-        const typedTextElement = document.getElementById('typed-text');
-        
-        function typeText() {
-            if (charIndex < textToType[textIndex].length) {
-                typedTextElement.textContent += textToType[textIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(typeText, typingSpeed);
-            } else {
-                setTimeout(eraseText, pauseTime);
-            }
+
+        // --- CALCULATOR FIXED ---
+        let calcExp = '';
+        function calcInput(v) { 
+            playSfx('click'); 
+            if(v === 'C') { calcExp = ''; } else { if(calcExp.length > 10) return; calcExp += v; }
+            document.getElementById('calc-out').innerText = calcExp || '0';
         }
-        
-        function eraseText() {
-            if (charIndex > 0) {
-                typedTextElement.textContent = textToType[textIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(eraseText, typingSpeed / 2);
-            } else {
-                textIndex = (textIndex + 1) % textToType.length;
-                setTimeout(typeText, typingSpeed);
-            }
+        function calcBackspace() {
+            playSfx('click'); calcExp = calcExp.slice(0, -1);
+            document.getElementById('calc-out').innerText = calcExp || '0';
         }
-        
-        // Start the typewriter effect
-        setTimeout(typeText, 1000);
-        
-        // Tetris Game
-        let tetrisGrid;
-        let tetrisNextDisplay;
-        let tetrisScoreDisplay;
-        let tetrisLevelDisplay;
-        let tetrisLinesDisplay;
-        let tetrisIntervalId;
-        let tetrisGameOver = false;
-        
-        // Game state variables
-        const GRID_WIDTH = 10;
-        const GRID_HEIGHT = 20;
-        let grid = [];
-        let score = 0;
-        let level = 1;
-        let lines = 0;
-        let currentPiece = null;
-        let nextPiece = null;
-        let dropSpeed = 1000; // ms
-        
-        // Tetris pieces (I, O, T, S, Z, J, L)
-        const PIECES = [
-            { // I piece
-                shapes: [
-                    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
-                    [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
-                ],
-                color: '#00ffff'
-            },
-            { // O piece
-                shapes: [
-                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0]
-                ],
-                color: '#ffff00'
-            },
-            { // T piece
-                shapes: [
-                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0]
-                ],
-                color: '#ff00ff'
-            },
-            { // S piece
-                shapes: [
-                    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0]
-                ],
-                color: '#00ff00'
-            },
-            { // Z piece
-                shapes: [
-                    [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0]
-                ],
-                color: '#ff0000'
-            },
-            { // J piece
-                shapes: [
-                    [0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0]
-                ],
-                color: '#0000ff'
-            },
-            { // L piece
-                shapes: [
-                    [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
-                ],
-                color: '#ff7f00'
+        function calcRes() {
+            try { let res = eval(calcExp).toString(); if(res.length > 11) res = res.substring(0, 11); calcExp = res; document.getElementById('calc-out').innerText = calcExp; }
+            catch { document.getElementById('calc-out').innerText = 'ERR'; calcExp = ''; }
+        }
+
+        // --- PAINT FIXED ---
+        let brushColor = '#000'; let sketchInitState = false;
+        function setBrush(c) { brushColor = c; }
+        function initSketch() {
+            const canvas = document.getElementById('sketch-canvas');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width; canvas.height = rect.height;
+            if(sketchInitState) return;
+            let painting = false;
+            function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+            canvas.addEventListener('mousedown', (e) => { painting = true; draw(e); });
+            canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+            canvas.addEventListener('mousemove', draw);
+            function draw(e) {
+                if (!painting) return;
+                const pos = getPos(e);
+                ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = brushColor;
+                ctx.lineTo(pos.x, pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
             }
-        ];
+            sketchInitState = true;
+        }
+        function clearSketch() { const c = document.getElementById('sketch-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
+
+        // --- SNAKE ---
+        const snakeCanvas = document.getElementById('snake-canvas'); const sCtx = snakeCanvas.getContext('2d'); const grid = 20;
+        let count = 0; let snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 }; let apple = { x: 0, y: 0 }; let gameRunning = false; let gameLoopId; let score = 0;
+        function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
+        function resetSnake() { gameRunning = false; cancelAnimationFrame(gameLoopId); snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 }; apple.x = getRandomInt(0, 15) * grid; apple.y = getRandomInt(0, 15) * grid; score = 0; document.getElementById('snake-score').innerText = score; document.getElementById('game-over-screen').style.display = 'none'; gameRunning = true; requestAnimationFrame(loopSnake); }
+        function startSnake() { if(!gameRunning){ resetSnake(); } }
+        function gameOver() { gameRunning = false; cancelAnimationFrame(gameLoopId); document.getElementById('final-score').innerText = score; document.getElementById('game-over-screen').style.display = 'flex'; }
+        function loopSnake() {
+            if(!gameRunning) return; gameLoopId = requestAnimationFrame(loopSnake);
+            if (++count < 6) return; count = 0;
+            sCtx.clearRect(0,0,snakeCanvas.width,snakeCanvas.height); snake.x += snake.dx; snake.y += snake.dy;
+            if (snake.x < 0) snake.x = snakeCanvas.width - grid; else if (snake.x >= snakeCanvas.width) snake.x = 0;
+            if (snake.y < 0) snake.y = snakeCanvas.height - grid; else if (snake.y >= snakeCanvas.height) snake.y = 0;
+            snake.cells.unshift({x: snake.x, y: snake.y}); if (snake.cells.length > snake.maxCells) snake.cells.pop();
+            sCtx.fillStyle = '#f72585'; sCtx.fillRect(apple.x, apple.y, grid-1, grid-1); sCtx.fillStyle = '#4cc9f0';
+            for(let index = 0; index < snake.cells.length; index++) { let cell = snake.cells[index]; sCtx.fillRect(cell.x, cell.y, grid-1, grid-1); if (cell.x === apple.x && cell.y === apple.y) { snake.maxCells++; score += 10; document.getElementById('snake-score').innerText = score; apple.x = getRandomInt(0, 15) * grid; apple.y = getRandomInt(0, 15) * grid; } for (var i = index + 1; i < snake.cells.length; i++) { if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) { gameOver(); return; } } }
+        }
+        document.addEventListener('keydown', function(e) { if([37,38,39,40].indexOf(e.which) > -1) { e.preventDefault(); } if(!gameRunning) return; if (e.which === 37 && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; } else if (e.which === 38 && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; } else if (e.which === 39 && snake.dx === 0) { snake.dx = grid; snake.dy = 0; } else if (e.which === 40 && snake.dy === 0) { snake.dy = grid; snake.dx = 0; } });
+
+        // --- UTILS ---
+        const dtop = document.getElementById('desktop'); const selBox = document.getElementById('selection-box'); let isSel = false; let sX, sY;
+        dtop.addEventListener('mousedown', (e) => { if(e.target!==dtop)return; isSel=true; sX=e.clientX; sY=e.clientY; selBox.style.left=sX+'px'; selBox.style.top=sY+'px'; selBox.style.display='block'; });
+        window.addEventListener('mousemove', (e) => { if(!isSel)return; selBox.style.width=Math.abs(e.clientX-sX)+'px'; selBox.style.height=Math.abs(e.clientY-sY)+'px'; selBox.style.left=(e.clientX<sX?e.clientX:sX)+'px'; selBox.style.top=(e.clientY<sY?e.clientY:sY)+'px'; });
+        window.addEventListener('mouseup', () => { isSel=false; selBox.style.display='none'; });
+
+        // --- BG ANIMATION ---
+        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); let w, h;
+        window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }); window.dispatchEvent(new Event('resize'));
+        class Star { constructor() { this.reset(); this.y = Math.random() * h; } reset() { this.x = Math.random() * w; this.y = 0; this.z = Math.random() * 2 + 0.5; this.size = Math.random() * 1.5; this.blinkOffset = Math.random() * Math.PI; } update() { this.y += 0.2 * this.z; if (this.y > h) this.y = 0; this.opacity = 0.5 + Math.sin(Date.now() * 0.002 + this.blinkOffset) * 0.4; } draw() { ctx.fillStyle = `rgba(${starColor}, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * this.z, 0, Math.PI * 2); ctx.fill(); } }
+        const stars = []; for(let i=0; i<150; i++) stars.push(new Star());
+        function animateBG() { ctx.clearRect(0, 0, w, h); stars.forEach(s => { s.update(); s.draw(); }); requestAnimationFrame(animateBG); } animateBG();
     </script>
 </body>
 </html>
