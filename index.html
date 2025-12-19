@@ -12,7 +12,6 @@
 
     <style>
         :root {
-            /* Default Theme (Cyber) */
             --bg-deep: #020005;
             --bg-panel: #150524;
             --border-main: #9d4edd;
@@ -38,7 +37,6 @@
             --star-color: 0, 255, 0;
         }
 
-        /* Theme 3: Retro (Amber) */
         [data-theme="retro"] {
             --bg-deep: #1a1000;
             --bg-panel: #2e1c00;
@@ -51,7 +49,6 @@
             --star-color: 255, 200, 0;
         }
 
-		/* Theme 4: Polar (Light - Ice) */
         [data-theme="polar"] {
             --bg-deep: #e0f7fa;
             --bg-panel: #ffffff;
@@ -64,7 +61,6 @@
             --star-color: 0, 0, 0;
         }
 
-        /* Theme 5: Paper (Light - Blueprint) */
         [data-theme="paper"] {
             --bg-deep: #fdfbf7;
             --bg-panel: #fffcf0;
@@ -85,22 +81,18 @@
             height: 100vh; width: 100vw; 
             background: radial-gradient(circle at 50% 120%, var(--bg-panel) 0%, var(--bg-deep) 70%);
             transition: background 0.5s, color 0.5s;
-            /* CUSTOM RETRO CURSOR */
             cursor: crosshair;
         }
 
-        /* POINTER CURSORS FOR INTERACTABLES */
         .icon, button, .win-btn, .start-item, .g-folder, .gallery-rect, i, input[type=range] {
             cursor: pointer; 
         }
 
-        /* --- SCROLLBARS --- */
         ::-webkit-scrollbar { width: 10px; background: rgba(0,0,0,0.1); }
         ::-webkit-scrollbar-track { border-left: 1px solid var(--border-main); }
         ::-webkit-scrollbar-thumb { background: var(--border-main); border: 1px solid var(--bg-panel); }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-pink); }
 
-        /* --- EFFECTS --- */
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
@@ -118,7 +110,6 @@
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZkzMzO3t7c3AAAACHRSTlMAMwA3MzMzMzMzMzMzAAAAJUlEQVQ4y2NgwA2YQACO4gZ2EAYCYGBgYHgIE4RDwUPYwA5iAAAuHz/d1C4nOAAAAABJRU5ErkJggg==');
         }
 
-        /* --- LOGIN SCREEN --- */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 100000;
@@ -161,17 +152,16 @@
         }
         .login-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 30px var(--accent-cyan); }
 
-		/* --- BIOS LOADER --- */
         #bios-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-deep); /* Matches current theme background */
+            background: var(--bg-deep); 
             z-index: 99999; display: none; flex-direction: column; 
             justify-content: center; align-items: center;
         }
         .bios-text-container { 
             width: 80%; text-align: left; margin-bottom: 20px; 
             font-family: 'VT323'; font-size: 1.2rem; 
-            color: var(--main-text); /* Forces the solid black color */
+            color: var(--main-text); 
         }
         .bios-line { margin-bottom: 5px; opacity: 0; animation: typeLine 0.1s forwards; }
         .classic-loader { display: inline-block; position: relative; width: 80px; height: 80px; }
@@ -194,10 +184,8 @@
         .classic-loader div:nth-child(12) { transform: rotate(330deg); animation-delay: 0s; }
         @keyframes spinner { 0% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* --- BACKGROUND --- */
         #bg-canvas { position: absolute; top: 0; left: 0; z-index: 0; }
 
-        /* --- DESKTOP --- */
         #desktop {
             position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 45px);
             z-index: 10; padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap; 
@@ -216,7 +204,6 @@
         }
         .icon-text { background: var(--bg-deep); color: var(--text-glow); padding: 1px 3px; font-size: 1rem; box-shadow: 2px 2px 0 var(--accent-pink); border: 1px solid var(--border-main); }
 
-        /* --- SIDEBAR WIDGETS --- */
         #right-sidebar {
             position: absolute; top: 20px; right: 20px; width: 520px; max-width: 90vw;
             display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; z-index: 15;
@@ -232,7 +219,6 @@
             font-family: 'Press Start 2P'; font-size: 0.7rem; margin-bottom: 10px; text-transform: uppercase;
         }
         
-        /* Widget 1: Music */
         .music-container { 
             position: relative; width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; 
             overflow: hidden; border: 1px solid #333; background: #000; margin-bottom: 5px; 
@@ -251,18 +237,15 @@
         .widget-vol { display: flex; align-items: center; gap: 5px; margin-top: auto; border-top: 1px solid #444; padding-top: 2px; color: #fff; font-size: 0.8rem; }
         .widget-vol input { width: 100%; height: 4px; }
 
-        /* Widget 2: System Monitor */
         .avail-status { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; padding: 10px; border: 1px solid var(--border-main); background: rgba(0,0,0,0.3); }
         .status-light { width: 20px; height: 20px; background: #0f0; border-radius: 50%; box-shadow: 0 0 15px #0f0; animation: blink 1s infinite; margin-bottom: 10px; }
         .status-text { color: #0f0; font-family: 'Press Start 2P'; font-size: 0.7rem; text-align: center; line-height: 1.4; }
 
-        /* Widget 3: Calendar */
         .calendar-wrapper { color: #fff; text-align: center; padding: 10px 0; flex-grow: 1; display:flex; flex-direction:column; justify-content:center;}
         .time-big { font-family: 'Press Start 2P'; font-size: 1.8rem; color: var(--accent-cyan); margin-bottom: 5px; text-shadow: 2px 2px 0 #000; }
         .time-label { font-size: 0.8rem; color: #aaa; margin-bottom: 5px; }
         .date-display { font-size: 1.1rem; color: var(--accent-pink); }
 
-        /* Widget 4: Data Stream */
         .vis-container {
             display: flex; align-items: flex-end; justify-content: space-between; height: 60px;
             border: 1px solid var(--border-main); background: rgba(0,0,0,0.5); padding: 5px; flex-grow: 1;
@@ -275,14 +258,12 @@
         .vis-bar:nth-child(8) { animation-delay: 0.3s; }
         @keyframes bounceBar { 0%, 100% { height: 10%; } 50% { height: 90%; } }
 
-        /* Widget 5: Terminal Log */
         #sys-terminal {
             flex-grow: 1; background: #000; padding: 5px; font-family: 'VT323'; font-size: 0.9rem; 
             color: var(--accent-cyan); overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; 
             justify-content: flex-end; text-shadow: 0 0 2px var(--accent-cyan); opacity: 0.8;
         }
 
-        /* --- WINDOWS --- */
         .window {
             position: absolute; background: var(--bg-panel); border: 2px solid var(--border-main); 
             box-shadow: 10px 10px 0px rgba(0,0,0,0.6); display: none; flex-direction: column; 
@@ -307,11 +288,9 @@
             z-index: 90; pointer-events: none; transition: opacity 0.3s; opacity: 0.6;
         }
 
-        /* --- CONTENT STYLES --- */
         h2 { font-family: 'Press Start 2P'; font-size: 14px; color: var(--accent-cyan); border-bottom: 2px dashed var(--accent-pink); padding-bottom: 10px; margin-top: 0; }
         p { font-size: 1.2rem; line-height: 1.3; margin-bottom: 10px; }
         
-        /* Gallery */
         .gallery-folders { display: flex; flex-direction: column; gap: 5px; }
         .g-folder { display: flex; align-items: center; cursor: pointer; padding: 8px 10px; border: 1px solid transparent; width: 100%; }
         .g-folder:hover { background: rgba(255,255,255,0.05); border: 1px dotted var(--accent-cyan); }
@@ -330,7 +309,6 @@
         .rect-name { font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
         .back-btn { align-self: flex-start; background: var(--border-main); color: #fff; border: none; padding: 5px 10px; font-family: 'Press Start 2P'; font-size: 0.7rem; cursor: pointer; margin-bottom: 10px; }
 
-        /* Profile */
         .profile-grid { display: grid; grid-template-columns: 120px 1fr; gap: 20px; }
         .profile-pic { width: 120px; height: 120px; border: 2px solid #fff; background: var(--accent-cyan); display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; box-shadow: 5px 5px 0 var(--border-main); }
         .stat-block { margin-bottom: 5px; }
@@ -342,7 +320,6 @@
         .about-section { margin-top: 15px; border-top: 1px dotted #555; padding-top: 10px; }
         .skill-tag { display: inline-block; background: #222; border: 1px solid var(--accent-cyan); color: #fff; padding: 2px 6px; font-size: 0.8rem; margin: 2px; }
 
-        /* Pricing & Pay */
         .pricing-grid { display: grid; grid-template-columns: 1fr auto; gap: 5px; margin-bottom: 20px; }
         .p-row { display: contents; }
         .p-item { padding: 5px; border-bottom: 1px solid #444; }
@@ -353,7 +330,6 @@
         .pay-icon { width: 30px; text-align: center; font-size: 1.2rem; }
         .contact-row { background: #000; padding: 15px; border: 1px solid #444; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; font-size: 1.3rem; box-shadow: 3px 3px 0 #222; }
 
-        /* --- TASKBAR --- */
         #taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 45px; background: var(--bg-panel); border-top: 2px solid var(--border-main); display: flex; align-items: center; justify-content: space-between; padding: 0 8px; z-index: 9999; }
         .start-btn {
             background: linear-gradient(180deg, var(--border-light), var(--border-main)); 
@@ -372,19 +348,16 @@
         .task-item.active-task { background: #3c096c; color: #fff; border: 1px solid var(--accent-cyan); box-shadow: inset 2px 2px 4px #000; }
         .tray { display: flex; align-items: center; gap: 10px; background: var(--tray-bg); padding: 4px 10px; border: 2px solid #444; border-radius: 2px; }
 
-        /* Calculator */
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
         .calc-btn { padding: 10px; background: #333; border: 1px solid #fff; color: #fff; font-family: 'VT323'; font-size: 1.2rem; cursor: pointer; text-align: center; box-shadow: 2px 2px 0 #000; }
         .calc-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #000; }
         .calc-display { grid-column: span 4; background: #8da176; color: #000; padding: 10px; text-align: right; font-family: 'Press Start 2P'; margin-bottom: 5px; border: 2px solid #555; height: 40px; overflow: hidden;}
         .op-btn { background: var(--accent-pink); } .eq-btn { background: var(--accent-cyan); color: #000; }
 
-        /* Paint */
         #sketch-canvas { background: #fff; cursor: crosshair; width: 100%; height: 100%; display: block; border: 1px solid #000; }
         .tool-bar { margin-bottom: 5px; display: flex; gap: 5px; }
         .color-pick { width: 20px; height: 20px; cursor: pointer; border: 2px solid #fff; }
 
-        /* Snake */
         #snake-canvas { background: #000; border: 2px solid #333; display: block; margin: 0 auto; box-shadow: inset 0 0 20px #111; }
         .game-ui { text-align: center; margin-bottom: 10px; font-family: 'Press Start 2P'; }
         .game-btn { padding: 5px 10px; background: var(--accent-cyan); border: 2px solid #fff; cursor: pointer; font-family: inherit; margin: 0 5px; color: #000; }
@@ -667,7 +640,6 @@
     </div>
 
     <script>
-        // --- SFX ---
         const sfx = {
             click: new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAAD/AP8A/w=="),
             hover: new Audio("data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQYAAAAAAAAAAP8="),
@@ -686,7 +658,6 @@
         }
         function playHover() { playSfx('hover'); }
 
-        // --- LOGIN ---
         function attemptLogin() {
             playSfx('click');
 			loadSettings();
@@ -707,7 +678,6 @@
             }, delay + 1000);
         }
 
-        // --- SYSTEM MEMORY & THEMES ---
         const themes = ['cyber', 'matrix', 'retro', 'polar', 'paper'];
         let currentTheme = 0; let starColor = "255, 255, 255";
 
@@ -724,7 +694,6 @@
                 const themeIndex = themes.indexOf(savedTheme);
                 if (themeIndex !== -1) currentTheme = themeIndex;
                 
-                // Set star colors directly
                 if(savedTheme === 'polar') starColor = "0, 0, 0"; 
                 else if(savedTheme === 'paper') starColor = "50, 50, 50"; 
                 else if(savedTheme === 'matrix') starColor = "0, 255, 0"; 
@@ -744,11 +713,10 @@
             else if(themeName === 'retro') starColor = "255, 200, 0"; 
             else starColor = "255, 255, 255";
             
-            saveTheme(themeName); // SAVE TO MEMORY
+            saveTheme(themeName); 
             setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
         }
 
-        // --- AUDIO ---
         const audio = document.getElementById('bg-music'); const musicDisk = document.getElementById('music-disk'); const playPauseBtn = document.getElementById('play-pause-btn');
         function initAudio() { audio.volume = 0.3; }
         function togglePlay() {
@@ -757,7 +725,6 @@
         }
         function updateVolume(val) { audio.volume = val; }
 
-        // --- CLOCK & CALENDAR ---
         function updateWidgetClock() {
             const now = new Date(); const utc = now.getTime() + (now.getTimezoneOffset() * 60000); const myTime = new Date(utc + (3600000 * 7));
             const h = myTime.getHours().toString().padStart(2,'0'); const m = myTime.getMinutes().toString().padStart(2,'0'); const s = myTime.getSeconds().toString().padStart(2,'0');
@@ -775,7 +742,6 @@
             document.getElementById('widget-date').innerText = `${month.toUpperCase()} ${day} ${year}`;
         }
 
-        // --- WINDOWS ---
         let zIndex = 100; let activeWins = [];
         function openWindow(id) {
             playSfx('click'); const win = document.getElementById(id);
@@ -801,9 +767,6 @@
             document.getElementById(id).classList.add('active');
         }
 
-        // --- GALLERY ---
-        // --- GALLERY DATA & LOGIC ---
-        // 1. ADD YOUR IMAGE LINKS HERE
 		const galleryImages = {
 			'UGC': [
 				'images/ugc1.png', 'images/ugc2.png', 'images/ugc3.png', 'images/ugc4.png',
@@ -836,28 +799,22 @@
             const grid = document.getElementById('gallery-grid');
             grid.innerHTML = '';
             
-            // Get images for this category (or empty list if none)
             const images = galleryImages[category] || [];
 
             if(images.length === 0) {
                 grid.innerHTML = '<div style="color:#aaa; padding:10px;">[DIR_EMPTY]</div>';
             }
 
-            // Loop through your ACTUAL images
             images.forEach((imgSrc, index) => {
                 const item = document.createElement('div'); 
                 item.className = 'gallery-rect';
                 
-                // Show thumbnail image in the grid
-                // We use background-image for the thumbnail to keep it neat
                 item.style.backgroundImage = `url('${imgSrc}')`;
                 item.style.backgroundSize = 'cover';
                 item.style.backgroundPosition = 'center';
                 
-                // On click, send the full image Source to the lightbox
                 item.setAttribute('onclick', `enlargeImage('${imgSrc}')`);
                 
-                // Optional: Add a label overlay
                 item.innerHTML = `<div class="rect-name" style="background:rgba(0,0,0,0.7); width:100%; margin-top:auto;">${category}_0${index+1}</div>`;
                 
                 grid.appendChild(item);
@@ -870,13 +827,11 @@
             document.getElementById('gallery-content').style.display = 'none'; 
         }
 
-        // --- LIGHTBOX (UPDATED FOR REAL IMAGES) ---
         function enlargeImage(src) {
             playSfx('click');
             const lb = document.getElementById('lightbox');
             const lbContent = document.getElementById('lightbox-content');
             
-            // Inject an actual IMG tag now
             lbContent.innerHTML = `<img src="${src}" style="max-width:100%; max-height:100%; border:2px solid var(--accent-cyan); box-shadow:0 0 20px var(--accent-pink);">`;
             
             lb.style.display = 'flex';
@@ -885,7 +840,6 @@
             if (e.key === "Escape") document.getElementById('lightbox').style.display = 'none'; 
         });
 
-        // --- TERMINAL ANIMATION ---
         const terminal = document.getElementById('sys-terminal');
         const logMessages = ["Scanning Sector 7...", "Texture_Cache: UPDATED", "Ping: 24ms [SECURE]", "Optimizing Polygon Count...", "Rendering: Frame_2049", "GPU Temp: 65°C", "Memory Integrity: 100%", "Downloading Assets...", "Nexus_Link: CONNECTED", "Background Process: IDLE", "Encrypting Data Stream...", ">> CMD: EXECUTE_BATCH"];
         function updateTerminal() {
@@ -900,7 +854,6 @@
         }
         setInterval(updateTerminal, 1500);
 
-        // --- DRAG ---
         document.querySelectorAll('.window').forEach(win => {
             win.addEventListener('mousedown', () => bringFront(win.id));
             const title = win.querySelector('.title-bar'); let isDragging = false; let offset = { x: 0, y: 0 }; let lastGhostTime = 0;
@@ -930,7 +883,6 @@
             });
         }
 
-        // --- CALCULATOR FIXED ---
         let calcExp = '';
         function calcInput(v) { 
             playSfx('click'); 
@@ -946,7 +898,6 @@
             catch { document.getElementById('calc-out').innerText = 'ERR'; calcExp = ''; }
         }
 
-        // --- PAINT FIXED ---
         let brushColor = '#000'; let sketchInitState = false;
         function setBrush(c) { brushColor = c; }
         function initSketch() {
@@ -970,7 +921,6 @@
         }
         function clearSketch() { const c = document.getElementById('sketch-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
 
-        // --- SNAKE ---
         const snakeCanvas = document.getElementById('snake-canvas'); const sCtx = snakeCanvas.getContext('2d'); const grid = 20;
         let count = 0; let snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 }; let apple = { x: 0, y: 0 }; let gameRunning = false; let gameLoopId; let score = 0;
         function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
@@ -989,13 +939,11 @@
         }
         document.addEventListener('keydown', function(e) { if([37,38,39,40].indexOf(e.which) > -1) { e.preventDefault(); } if(!gameRunning) return; if (e.which === 37 && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; } else if (e.which === 38 && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; } else if (e.which === 39 && snake.dx === 0) { snake.dx = grid; snake.dy = 0; } else if (e.which === 40 && snake.dy === 0) { snake.dy = grid; snake.dx = 0; } });
 
-        // --- UTILS ---
         const dtop = document.getElementById('desktop'); const selBox = document.getElementById('selection-box'); let isSel = false; let sX, sY;
         dtop.addEventListener('mousedown', (e) => { if(e.target!==dtop)return; isSel=true; sX=e.clientX; sY=e.clientY; selBox.style.left=sX+'px'; selBox.style.top=sY+'px'; selBox.style.display='block'; });
         window.addEventListener('mousemove', (e) => { if(!isSel)return; selBox.style.width=Math.abs(e.clientX-sX)+'px'; selBox.style.height=Math.abs(e.clientY-sY)+'px'; selBox.style.left=(e.clientX<sX?e.clientX:sX)+'px'; selBox.style.top=(e.clientY<sY?e.clientY:sY)+'px'; });
         window.addEventListener('mouseup', () => { isSel=false; selBox.style.display='none'; });
 
-        // --- BG ANIMATION ---
         const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); let w, h;
         window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }); window.dispatchEvent(new Event('resize'));
         class Star { constructor() { this.reset(); this.y = Math.random() * h; } reset() { this.x = Math.random() * w; this.y = 0; this.z = Math.random() * 2 + 0.5; this.size = Math.random() * 1.5; this.blinkOffset = Math.random() * Math.PI; } update() { this.y += 0.2 * this.z; if (this.y > h) this.y = 0; this.opacity = 0.5 + Math.sin(Date.now() * 0.002 + this.blinkOffset) * 0.4; } draw() { ctx.fillStyle = `rgba(${starColor}, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * this.z, 0, Math.PI * 2); ctx.fill(); } }
@@ -1004,3 +952,4 @@
     </script>
 </body>
 </html>
+
