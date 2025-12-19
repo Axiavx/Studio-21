@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1233064769334808588/1451070810356711424/7a878915edef4482460ac4d8123c3629.webp?ex=6944d680&is=69438500&hm=5969e4f92cd1ba8a020e8b29a969a7233f6219649adb0663626106853eb6371c&=&format=webp&width=85&height=85">
+	<link rel="icon" type="image/x-icon" href="images/favicon.png">
 
     <style>
         :root {
@@ -404,7 +404,7 @@
     <div class="noise"></div>
     <div id="selection-box"></div>
 
-    <audio id="bg-music" src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
+    <audio id="bg-music" src="bg_track.mp3" loop></audio>
     
     <div id="login-screen">
         <div class="login-box">
@@ -521,7 +521,7 @@
             <div class="profile-grid">
                 <div>
 					<div class="profile-pic" style="overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000;">
-						<img src="https://media.discordapp.net/attachments/1233064769334808588/1451083540388118629/c5fc2152155572f09f29231714032e78.png?ex=6944e25b&is=694390db&hm=60b68c9356eefdd7b2033c4e31f09b2624bccf99d1d7e289dcf7eb1cc8a05110&=&format=webp&quality=lossless&width=316&height=561" style="width: 100%; height: 100%; object-fit: cover;">
+						<img src="images/profile.png" style="width: 100%; height: 100%; object-fit: cover;">
 					</div>
 					<div style="text-align:center; margin-top:5px; color:var(--accent-pink); font-size:0.8rem;">LVL. 24</div>
 					<div style="text-align:center; color:#fff; font-size:0.7rem;">3D Artist</div>
@@ -542,8 +542,13 @@
             </div>
             <div class="about-section">
                 <h2>// BIO</h2>
-                <p style="font-size:1rem;" id="bio-text"></p>
-                <span id="bio-source" style="display:none;">Specializing.in.optimized.low-poly.aesthetics.and.high-fidelity.environment.maps. I.construct.digital.realities.ready.for.game-engines.</span>
+                <div style="font-size:0.95rem; line-height:1.4; color: #fff;">
+					<strong>Hey there! I'm Axiax</strong>, a passionate 3D artist with a focus on creating immersive digital experiences that push creative boundaries.<br><br>
+					• <strong>4 years</strong> of professional experience in Blender<br>
+					• <strong>4 years</strong> mastering Adobe Substance Painter<br>
+					• <strong>3 years</strong> building worlds in Roblox Studio<br><br>
+					From game-ready assets and detailed character models to complex architectural buildings and expansive environment maps, I transform creative concepts into stunning 3D realities.
+				</div>
             </div>
             <div class="about-section">
                 <h2>// SOFTWARE STACK</h2>
@@ -565,7 +570,7 @@
             </div>
             <div id="gallery-content" class="gallery-content-view">
                 <button class="back-btn" onclick="closeGalleryFolder()">< BACK TO ROOT</button>
-                <div style="border-bottom: 1px dashed #555; padding-bottom: 5px; color: var(--accent-cyan); margin-bottom: 5px;" id="gallery-cat-title">INDEX OF /</div>
+                <div style="border-bottom: 1px dashed #555; padding-bottom: 5px; color: var(--accent-cyan); margin-bottom: 5px;" id="gallery-cat-title">CLICK ON THE IMAGES TO ENLARGE THEM | INDEX OF /</div>
                 <div class="gallery-grid" id="gallery-grid"></div>
             </div>
         </div>
@@ -744,14 +749,6 @@
             setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
         }
 
-        // --- TYPING ---
-        let typeInterval;
-        function typeText(targetId, sourceId) {
-            const target = document.getElementById(targetId); const source = document.getElementById(sourceId).innerText;
-            target.innerText = ""; clearInterval(typeInterval); let i = 0;
-            typeInterval = setInterval(() => { if (i < source.length) { target.innerText += source.charAt(i); i++; } else { clearInterval(typeInterval); } }, 30);
-        }
-
         // --- AUDIO ---
         const audio = document.getElementById('bg-music'); const musicDisk = document.getElementById('music-disk'); const playPauseBtn = document.getElementById('play-pause-btn');
         function initAudio() { audio.volume = 0.3; }
@@ -790,7 +787,7 @@
             bringFront(id); updateTaskbar();
             if(id === 'win-sketch') initSketch();
             if(id === 'win-snake') document.getElementById('game-over-screen').style.display = 'none';
-            if(id === 'win-about') typeText('bio-text', 'bio-source');
+            if(id === 'win-about') document.getElementById('bio-text').innerHTML = document.getElementById('bio-source').innerHTML;
         }
         function closeWin(id) {
             playSfx('click'); const win = document.getElementById(id); win.classList.add('closing');
@@ -808,58 +805,28 @@
         // --- GALLERY ---
         // --- GALLERY DATA & LOGIC ---
         // 1. ADD YOUR IMAGE LINKS HERE
-        const galleryImages = {
-            'UGC': [
-                'https://media.discordapp.net/attachments/1233064769334808588/1450839786805002250/image.png?ex=6943ff58&is=6942add8&hm=d9725ec8b146431db2b62ef96745bb082a3837e076dd1b1e5fe1d14f13b3a69f&=&format=webp&quality=lossless&width=213&height=233',
-                'https://media.discordapp.net/attachments/1233064769334808588/1450833465724506183/image.png?ex=6943f975&is=6942a7f5&hm=22b32bed0c1476977aa9d5898a1cc6e383a8e0b179130e0437773e3c95b3c54f&=&format=webp&quality=lossless&width=386&height=361',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450839908490150032/FFC56ED2-9A22-4E75-ADC5-F8501FC0495B.png?ex=6943ff75&is=6942adf5&hm=4b9c5ffcb47af9172f226e0d37ffd909a983c2a2b16d864d1c433f69e81c8abe&=&format=webp&quality=lossless&width=385&height=357',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450840153424793620/image.png?ex=6943ffaf&is=6942ae2f&hm=d3bd28b5b9f685b0675f19512de7efa08f2c1640ea553873ea1e05330ae739e4&=&format=webp&quality=lossless&width=475&height=377',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450840218537037894/AE670CE3-A047-4763-9EFC-5BDBAE02E10F.png?ex=6943ffbf&is=6942ae3f&hm=557c7e71d5c8b0c7c1e1f3bf8492fb309c7f90adda80ded2848a36d2666684a6&=&format=webp&quality=lossless&width=247&height=233',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450840817441706084/image.png?ex=6944004e&is=6942aece&hm=56d7b52bf279d754e57ebfb4b89612652906c053c2d26f114621ffd5ffa0f313&=&format=webp&quality=lossless&width=280&height=325',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450842133362901023/image.png?ex=69440187&is=6942b007&hm=96e6af6bb4e99ab8683e3df9ab731c031731a07d4553bf3646abc02de947f050&=&format=webp&quality=lossless&width=184&height=233',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450842246298734744/image.png?ex=694401a2&is=6942b022&hm=7420a91f5e4732223d900180a2aa2e7a3b54bf0c4496fda2c66ec31909a8b64c&=&format=webp&quality=lossless&width=322&height=342',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450842660859543798/image.png?ex=69440205&is=6942b085&hm=6407bd1030f74c1635637b6ac650815210e9211e1b2c62f2142e92a36b2c14a7&=&format=webp&quality=lossless&width=275&height=343',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450843817443069952/image.png?ex=69440319&is=6942b199&hm=7d33fe950f8b63a7f560b7d0df11cc0f40d4c560a44124190866baa6baee9a15&=&format=webp&quality=lossless&width=317&height=336',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450844120808427532/image.png?ex=69440361&is=6942b1e1&hm=0e77f0d5c87f4d1590ade657720e97db6b30a00c741ffed2c39cfc6f42e36ffe&=&format=webp&quality=lossless&width=313&height=348',
-                'https://media.discordapp.net/attachments/1233064769334808588/1450862653961670808/image.png?ex=694414a4&is=6942c324&hm=fbd6d033060d0091ab09158e085666caf17f45be6520152268a712b33949e7a3&=&format=webp&quality=lossless&width=341&height=347'
-            ],
-            'VEHICLES': [
-                'https://media.discordapp.net/attachments/1233064769334808588/1450872376068931594/image.png?ex=69441db2&is=6942cc32&hm=6e6f04d584bf29664c769ffb651c4dd08a95814ac3b7b00ba932d65ec0c3dfb9&=&format=webp&quality=lossless&width=540&height=243',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450872504959897740/image.png?ex=69441dd1&is=6942cc51&hm=a52d7b1e08e5a8047a3b57e8e32f40883cc140df8d5c1c0bb31ceb08aea76165&=&format=webp&quality=lossless&width=587&height=251',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450872714335227975/image.png?ex=69441e03&is=6942cc83&hm=0c6ae807c7eeba0c1bddfa6ba23e782d6870b0b304d27b2798cd2f45e0191942&=&format=webp&quality=lossless&width=582&height=282',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450872841284096240/08CC7CCC-83FC-450B-AF04-7DF6B0804CE0.png?ex=69441e21&is=6942cca1&hm=57ae064c3859a2e39532d7399d63e118b14822d345559f8c552547f27deb7fad&=&format=webp&quality=lossless&width=595&height=266',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451037725955194952/image.png?ex=6944b7b0&is=69436630&hm=d59d7be6780b5964f67bee2cd2224fec6abaa5b48b45778b3e102784490f674d&=&format=webp&quality=lossless&width=581&height=265',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451037726441996429/06B75E82-EDDF-4E3B-BF78-3B168C880FA3.png?ex=6944b7b0&is=69436630&hm=6d9950be5bf1dcaafeae4985e3efac9d41e6308fb90fceca9b5ced69186418a5&=&format=webp&quality=lossless&width=563&height=247',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450867376093528216/image.png?ex=6944190a&is=6942c78a&hm=399cbbf31ea3d49c3b77c0754b2e9c5f0e0d1196b9d781cf9ebcb7c8eba27813&=&format=webp&quality=lossless&width=509&height=321',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450867442053288051/image.png?ex=69441919&is=6942c799&hm=8723b718cd9181e6c007f2731f2f1cad5f2c1e0fa061b57af22d7afd74a62cc0&=&format=webp&quality=lossless&width=401&height=271',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450867640057729157/B04EC3F5-F1CD-4B2A-A57E-02A6C482C5AF.png?ex=69441949&is=6942c7c9&hm=787f42e3f7a64cc95c4bd1393bdbdfb289baff564e67d3cead8c2ea1693867e0&=&format=webp&quality=lossless&width=495&height=299',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450867735645913129/45877D9A-7361-4906-A8E4-66AEC961150A.png?ex=6944195f&is=6942c7df&hm=3269a025db25222eccd385b8a57fc16cfaaa827b7ac2e1c89dbe6a19741854e3&=&format=webp&quality=lossless&width=487&height=295',
-				'https://media.discordapp.net/attachments/1233064769334808588/1450868675174207600/image.png?ex=69441a3f&is=6942c8bf&hm=a3309e54ac052a7081f33730a5467c35feeb960f60986c6bd57edecd54024189&=&format=webp&quality=lossless&width=503&height=313',
-                'https://media.discordapp.net/attachments/1233064769334808588/1450870854782156981/image.png?ex=69441c47&is=6942cac7&hm=3e0a17ceca8f67b81c80ea2233996c7102576d211928074b5201351562e73ede&=&format=webp&quality=lossless&width=505&height=272',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451046355148603565/image.png?ex=6944bfba&is=69436e3a&hm=0402eec04efe750b7b7bc9abd0eb0067b8d38437f1e28d3d903f70169a31361b&=&format=webp&quality=lossless&width=487&height=284'
-            ],
-			            'CULINARY': [
-                'https://media.discordapp.net/attachments/1233064769334808588/1451041083298676908/image.png?ex=6944bad1&is=69436951&hm=37a907b68fd34c64f8fbd7ba59415e055682b72d3b5fd8750c738c263f52c43b&=&format=webp&quality=lossless&width=441&height=339',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451041417358082140/180CDEF9-E68B-48F8-B4E4-819B66C8B563.png?ex=6944bb20&is=694369a0&hm=4e6a644eed8346ea878f41d5494e3a6dce5060e2ece5b4a88681e6f64eb5954e&=&format=webp&quality=lossless&width=406&height=331',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451043531845140584/image.png?ex=6944bd19&is=69436b99&hm=f06a8fcb2ed621d156d8be232a6500dd4bccea739c4060b5e28b8b26d72d1403&=&format=webp&quality=lossless&width=297&height=233',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451043588342415482/image.png?ex=6944bd26&is=69436ba6&hm=7ac9dc4ad4fc80d386f5353db6020e5279ee299673d250515fb8eda682d9815c&=&format=webp&quality=lossless&width=397&height=302',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451043942530551991/2F31AAD0-38D4-4BB2-A81F-1D7CC9926402.png?ex=6944bd7a&is=69436bfa&hm=0b3f762720fc9fd731a4550149296bfb77c0c38dfd426891f95efead4db12622&=&format=webp&quality=lossless&width=522&height=339',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451044060747006106/image.png?ex=6944bd97&is=69436c17&hm=a07f0eb6eb135ce0089e3de960b87bacb270623a89f7374050668a7734e22823&=&format=webp&quality=lossless&width=473&height=320',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451044304557707315/image.png?ex=6944bdd1&is=69436c51&hm=4fef36e3ee5679d9cc0c06a143464a4686819f40306f00b5a9cb2ee249940ca7&=&format=webp&quality=lossless&width=377&height=283',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451044516067807333/image.png?ex=6944be03&is=69436c83&hm=88fcd32adacafc8359b56250c826285b4ab0fc11b0b91a852806aa29726334c5&=&format=webp&quality=lossless&width=465&height=303',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451054759686443030/32542961-7849-49D9-B068-AB61DA8D0201.png?ex=6944c78e&is=6943760e&hm=d423a193d28d3e01a7204716ccfce01ccdc1bfff9b3d02ff00070c3b4a4ecfce&=&format=webp&quality=lossless&width=583&height=273',
-                'https://media.discordapp.net/attachments/1233064769334808588/1451054893958697100/image.png?ex=6944c7ae&is=6943762e&hm=944dc5dccaa7db5e51a909e1ec70c69a016c60fcb5939421daded71cd097c483&=&format=webp&quality=lossless&width=250&height=233'
-            ],
-            'ENVIRON': [
-                'https://media.discordapp.net/attachments/1233064769334808588/1451052360293154856/image.png?ex=6944c551&is=694373d1&hm=88cb37ac4284ec9a8aed660903325a614316c2f47308b1c48e948cf04baac688&=&format=webp&quality=lossless&width=750&height=381',
-                'https://media.discordapp.net/attachments/1233064769334808588/1451052495848865955/image.png?ex=6944c572&is=694373f2&hm=73c1d172b37a89a5efea62b51b59654c585766040fe8354a0ee5d92bf3b7ded3&=&format=webp&quality=lossless&width=751&height=396',
-                'https://media.discordapp.net/attachments/1233064769334808588/1451052360888484123/image.png?ex=6944c552&is=694373d2&hm=249ba31863afd34cc02da409a9344276634d1b0f3cd93057fd79dcd52cfafa0d&=&format=webp&quality=lossless&width=753&height=397',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451052955603173457/46BEDD0A-0715-4DD4-B376-4CEC6E007CA4.png?ex=6944c5df&is=6943745f&hm=0212d0648b53478d83a040b5a2cfb7c29be935ce12c4032298c68216c7077f55&=&format=webp&quality=lossless&width=750&height=396',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451053159588958248/image.png?ex=6944c610&is=69437490&hm=2da3b41d4609a2ae4936a48c52ca24b615b0ca8a3e7bf6b30aa0535fb2a5611b&=&format=webp&quality=lossless&width=748&height=401',
-				'https://media.discordapp.net/attachments/1233064769334808588/1451053661835759687/image.png?ex=6944c688&is=69437508&hm=060e5bf72c4cb522f61785cdd37c3e98334723358e8e12d29245cedc77db599a&=&format=webp&quality=lossless&width=559&height=231',
-                'https://media.discordapp.net/attachments/1233064769334808588/1451053662146269275/image.png?ex=6944c688&is=69437508&hm=ec3ff83304cec3d224bcd16117973db896a875d560812260fe87c973750dd74c&=&format=webp&quality=lossless&width=564&height=231'
-            ]
-        };
+		const galleryImages = {
+			'UGC': [
+				'images/ugc1.png', 'images/ugc2.png', 'images/ugc3.png', 'images/ugc4.png',
+				'images/ugc5.png', 'images/ugc6.png', 'images/ugc7.png', 'images/ugc8.png',
+				'images/ugc9.png', 'images/ugc10.png', 'images/ugc11.png', 'images/ugc12.png'
+			],
+			'VEHICLES': [
+				'images/ve1.png', 'images/ve2.png', 'images/ve3.png', 'images/ve4.png',
+				'images/ve5.png', 'images/ve6.png', 'images/ve7.png', 'images/ve8.png',
+				'images/ve9.png', 'images/ve10.png', 'images/ve11.png', 'images/ve12.png',
+				'images/ve13.png', 'images/ve14.png', 'images/ve15.png', 'images/ve16.png', 'images/ve17.png'
+			],
+			'CULINARY': [
+				'images/cu1.png', 'images/cu2.png', 'images/cu3.png', 'images/cu4.png',
+				'images/cu5.png', 'images/cu6.png', 'images/cu7.png', 'images/cu8.png',
+				'images/cu9.png', 'images/cu10.png'
+			],
+			'ENVIRON': [
+				'images/env1.png', 'images/env2.png', 'images/env3.png', 
+				'images/env4.png', 'images/env5.png', 'images/env6.png', 'images/env7.png'
+			]
+		};
 
         function openGalleryFolder(category) {
             playSfx('click');
